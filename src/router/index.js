@@ -11,6 +11,14 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/devises',
+                    name: 'devises',
+                    component: () => import('@/views/pages/Devises/DeviseListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/',
                     name: 'dashboard',
                     component: () => import('@/views/Dashboard.vue')

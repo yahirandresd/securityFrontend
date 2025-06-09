@@ -27,3 +27,5 @@ class AddressService {
         await axios.delete(`${API_URL}/${id}`);
     }
 }
+
+export default new AddressService();

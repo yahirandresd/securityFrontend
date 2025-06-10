@@ -69,7 +69,10 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import('@/views/Dashboard.vue')
+                    component: () => import('@/views/Dashboard.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: '/users',
@@ -88,6 +91,60 @@ const router = createRouter({
                     path: '/users/update/:id',
                     name: 'users update',
                     component: () => import('@/views/pages/users/UserUpdate.vue')
+                },
+                {
+                    path: '/sessions',
+                    name: 'sessions',
+                    component: () => import('@/views/pages/sessions/SessionListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/sessions/create',
+                    name: 'sessions create',
+                    component: () => import('@/views/pages/sessions/SessionCreate.vue')
+                },
+                {
+                    path: '/sessions/update/:id',
+                    name: 'sessions update',
+                    component: () => import('@/views/pages/sessions/SessionUpdate.vue')
+                },
+                {
+                    path: '/permissions',
+                    name: 'permissions',
+                    component: () => import('@/views/pages/permissions/PermissionListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/permissions/create',
+                    name: 'permissions create',
+                    component: () => import('@/views/pages/permissions/PermissionCreate.vue'),
+                },
+                {
+                    path: '/permissions/update/:id',
+                    name: 'permissions update',
+                    component: () => import('@/views/pages/permissions/PermissionUpdate.vue'),
+                },
+                       {
+                    path: '/profiles',
+                    name: 'profiles',
+                    component: () => import('@/views/pages/profiles/ProfileListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/profiles/create',
+                    name: 'profiles create',
+                    component: () => import('@/views/pages/profiles/ProfileCreate.vue'),
+                },
+                {
+                    path: '/profiles/update/:id',
+                    name: 'profiles update',
+                    component: () => import('@/views/pages/profiles/ProfileUpdate.vue'),
                 },
                 {
                     path: '/login2',
@@ -221,7 +278,7 @@ router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();  // Obtener el estado de autenticación desde Pinia
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         // Si la ruta requiere autenticación y el usuario no está logueado, redirigir al login
-        next({ path: '/login2' });
+        next({ path: '/auth/login' });
     } else {
         // Si no requiere autenticación o el usuario está logueado, continuar con la ruta
         next();

@@ -3,4 +3,5 @@ export interface Password {
     content?: string;
     startAd?: Date;
     endAd?: Date;
+    userId?: number;
 }

@@ -39,6 +39,11 @@ const model = ref([
                 to: '/landing'
             },
             {
+                label: 'Users',
+                icon: 'pi pi-fw pi-user',
+                to: '/users',
+            },
+            {
                 label: 'Auth',
                 icon: 'pi pi-fw pi-user',
                 items: [

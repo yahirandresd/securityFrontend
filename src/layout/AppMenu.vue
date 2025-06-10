@@ -8,7 +8,7 @@ const model = ref([
         label: 'Home',
         items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' }]
     },
-    {
+    /*{
         label: 'UI Components',
         items: [
             { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },
@@ -27,7 +27,7 @@ const model = ref([
             { label: 'Timeline', icon: 'pi pi-fw pi-calendar', to: '/uikit/timeline' },
             { label: 'Misc', icon: 'pi pi-fw pi-circle', to: '/uikit/misc' }
         ]
-    },
+    },*/
     {
         label: 'Pages',
         icon: 'pi pi-fw pi-briefcase',
@@ -37,6 +37,11 @@ const model = ref([
                 label: 'Landing',
                 icon: 'pi pi-fw pi-globe',
                 to: '/landing'
+            },
+            {
+                label: 'Users',
+                icon: 'pi pi-fw pi-user',
+                to: '/users',
             },
             {
                 label: 'Auth',
@@ -76,7 +81,7 @@ const model = ref([
             }
         ]
     },
-    {
+    /*{
         label: 'Hierarchy',
         items: [
             {
@@ -135,7 +140,7 @@ const model = ref([
                 target: '_blank'
             }
         ]
-    }
+    }*/
 ]);
 </script>
 

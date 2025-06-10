@@ -11,6 +11,54 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/signatures/create',
+                    name: 'digital-signatures-create',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/security-questions',
+                    name: 'security-questions',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }   
+                },
+                {
+                    path: '/signatures',
+                    name: 'signatures',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/answers',
+                    name: 'answers',
+                    component: () => import('@/views/pages/Answers/AnswerListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/create',
+                    name: 'devises create',
+                    component: () => import('@/views/pages/Devises/DeviseCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/update/:id',
+                    name: 'devises update',
+                    component: () => import('@/views/pages/Devises/DeviseUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/devises',
                     name: 'devises',
                     component: () => import('@/views/pages/Devises/DeviseListView.vue'),

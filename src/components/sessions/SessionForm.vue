@@ -8,13 +8,14 @@ import { useRouter } from 'vue-router';
 const props = defineProps<{ SessionId?: number }>();
 
 const Session = reactive({
-            user_id:null;
-            token: '';
-            expiration: '';
-            FACode: '';
-            state: '';
+  user_id: null,
+  token: '',
+  expiration: '',
+  FACode: '',
+  state: '',
 });
 
+const users = ref<Array<{ id: number; name: string }>>([]);
 const errors = reactive<Record<string, string>>({});
 const isSubmitting = ref(false);
 const successMessFACode = ref("");
@@ -23,11 +24,10 @@ const router = useRouter();
 
 const validateField = (field: keyof typeof Session) => {
   const result = SessionValidator.validateField(field, Session[field]);
-
   if (!result.success) {
     errors[field] = result.error.errors[0].messFACode;
   } else {
-    delete errors[field]; // Borra el error si es válido
+    delete errors[field];
   }
 };
 
@@ -37,27 +37,31 @@ const validateAllFields = () => {
   });
 };
 
-// Cargar sesion si se pasa un SessionId
 onMounted(async () => {
+  try {
+    const response = await store.getUsers(); // Obtener usuarios del store
+    if (response.status === 200) {
+      users.value = response.data;
+    }
+  } catch (error) {
+    console.error("Error al cargar usuarios:", error);
+  }
+
   if (props.SessionId) {
     try {
       const response = await store.getSession(props.SessionId);
       if (response.status == 200) {
-        let fetchedSession = response.data
+        let fetchedSession = response.data;
         Object.assign(Session, fetchedSession);
       }
-
-
     } catch (error) {
-      console.error("Error al cargar sesion:", error);
+      console.error("Error al cargar sesión:", error);
     }
   }
 });
 
-// Enviar formulario (crear o actualizar sesion)
 const submitForm = async () => {
   validateAllFields();
-
   if (Object.keys(errors).length > 0) return;
 
   isSubmitting.value = true;
@@ -74,7 +78,7 @@ const submitForm = async () => {
     if (response.status === 200 || response.status === 201) {
       Swal.fire({
         title: 'Éxito',
-        text: props.SessionId ? 'sesion actualizada con éxito ✅' : 'sesion creada con éxito ✅',
+        text: props.SessionId ? 'Sesión actualizada con éxito ✅' : 'Sesión creada con éxito ✅',
         icon: 'success',
         confirmButtonText: 'OK',
         timer: 3000
@@ -98,8 +102,8 @@ const submitForm = async () => {
     });
   } finally {
     isSubmitting.value = false;
+    router.push('/Sessions');
   }
-  router.push('/Sessions');
 };
 </script>
 
@@ -107,14 +111,21 @@ const submitForm = async () => {
   <div class="min-h-screen bg-gray-100 p-6">
     <div class="w-full bg-white shadow-lg rounded-lg p-8">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-        {{ props.SessionId ? "Editar sesion" : "Crear sesion" }}
+        {{ props.SessionId ? "Editar sesión" : "Crear sesión" }}
       </h2>
 
       <form @submit.prevent="submitForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Lista desplegable de usuarios -->
         <div class="w-full">
-          <label class="block text-sm font-medium text-gray-700">Id usuario:</label>
-          <input v-model="Session.user_id" type="number" @input="validateField('user_id')" @blur="validateField('user_id')"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
+          <label class="block text-sm font-medium text-gray-700">Usuario:</label>
+          <select v-model="Session.user_id" @change="validateField('user_id')"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <option disabled value="">Seleccione un usuario</option>
+            <option v-for="user in users" :key="user.id" :value="user.id">
+              {{ user.name }}
+            </option>
+          </select>
           <span class="text-red-500 text-sm" v-if="errors.user_id">{{ errors.user_id }}</span>
         </div>
 
@@ -126,7 +137,7 @@ const submitForm = async () => {
         </div>
 
         <div class="w-full">
-          <label class="block text-sm font-medium text-gray-700">Expiracion:</label>
+          <label class="block text-sm font-medium text-gray-700">Expiración:</label>
           <input v-model="Session.expiration" type="date" @input="validateField('expiration')"
             @blur="validateField('expiration')"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
@@ -134,8 +145,8 @@ const submitForm = async () => {
         </div>
 
         <div class="w-full">
-          <label class="block text-sm font-medium text-gray-700">Codigo:</label>
-          <input v-model.number="Session.FACode" type="text" @input="validateField('FACode')" @blur="validateField('FACode')"
+          <label class="block text-sm font-medium text-gray-700">Código:</label>
+          <input v-model="Session.FACode" type="text" @input="validateField('FACode')" @blur="validateField('FACode')"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
           <span class="text-red-500 text-sm" v-if="errors.FACode">{{ errors.FACode }}</span>
         </div>
@@ -145,6 +156,7 @@ const submitForm = async () => {
           <input v-model="Session.state" type="text" @input="validateField('state')" @blur="validateField('state')"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
         </div>
+
         <div class="col-span-1 md:col-span-2">
           <button type="submit" :disabled="Object.keys(errors).length > 0 || isSubmitting"
             class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400">

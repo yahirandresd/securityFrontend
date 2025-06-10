@@ -21,7 +21,10 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import('@/views/Dashboard.vue')
+                    component: () => import('@/views/Dashboard.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: '/users',
@@ -227,7 +230,7 @@ router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();  // Obtener el estado de autenticación desde Pinia
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         // Si la ruta requiere autenticación y el usuario no está logueado, redirigir al login
-        next({ path: '/login2' });
+        next({ path: '/auth/login' });
     } else {
         // Si no requiere autenticación o el usuario está logueado, continuar con la ruta
         next();

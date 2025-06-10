@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-100 p-6">
     <div class="mx-auto bg-white shadow-lg rounded-lg p-6 w-full max-w-6xl">
-      <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Respuestas de Seguridad</h1>
+      <h1 class="text-2xl font-bold text-gray-800 mb-4">Respuestas</h1>
 
       <router-link
         to="/answers/create"
@@ -17,8 +17,8 @@
             <tr>
               <th class="px-4 py-3 border">ID</th>
               <th class="px-4 py-3 border">Contenido</th>
-              <th class="px-4 py-3 border">Pregunta de Seguridad</th>
               <th class="px-4 py-3 border">Usuario</th>
+              <th class="px-4 py-3 border">Pregunta</th>
               <th class="px-4 py-3 border">Acciones</th>
             </tr>
           </thead>
@@ -31,8 +31,8 @@
             <tr v-for="a in answers" :key="a.id" class="hover:bg-gray-100">
               <td class="px-4 py-3 border">{{ a.id }}</td>
               <td class="px-4 py-3 border">{{ a.content }}</td>
-              <td class="px-4 py-3 border">{{ a.security_question?.question || 'N/A' }}</td>
               <td class="px-4 py-3 border">{{ a.user?.name || 'Sin usuario' }}</td>
+              <td class="px-4 py-3 border">{{ a.securityQuestion?.name || 'Sin pregunta' }}</td>
               <td class="px-4 py-3 border">
                 <div class="flex flex-wrap gap-2">
                   <router-link
@@ -70,24 +70,24 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next'
 
-interface Answer {
+export interface Answer {
   id: number
   content: string
-  securityQuestion_id: number
   user_id: number
+  securityQuestion_id: number
   user?: {
     id: number
     name: string
   }
-  security_question?: {
+  securityQuestion?: {
     id: number
-    question: string
+    name: string
   }
 }
 
 const answers = ref<Answer[]>([])
 const error = ref('')
-const API_URL = import.meta.env.VITE_API_URL + '/answer'
+const API_URL = import.meta.env.VITE_API_URL + '/answers'
 
 const fetchAnswers = async () => {
   try {
@@ -110,3 +110,4 @@ const deleteAnswer = async (id: number) => {
 
 onMounted(fetchAnswers)
 </script>
+

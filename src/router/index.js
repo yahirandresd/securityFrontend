@@ -11,6 +11,30 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: 'security-questions/create',
+                    name: 'security-questions-create',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'Answers/create',
+                    name: 'answers create',
+                    component: () => import('@/views/pages/Answers/AnswersCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures/update/:id',
+                    name: 'digital-signatures-update',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/signatures/create',
                     name: 'digital-signatures-create',
                     component: () => import('@/views/pages/DigitalSignature/DigitalSignatureCreate.vue'),

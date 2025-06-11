@@ -74,13 +74,13 @@ interface SecurityQuestion {
 
 const questions = ref<SecurityQuestion[]>([])
 const error = ref('')
-const API_URL = import.meta.env.VITE_API_URL + '/security-question'
+const API_URL = import.meta.env.VITE_API_URL + '/security-questions'
 
 const fetchQuestions = async () => {
   try {
     const res = await axios.get<SecurityQuestion[]>(API_URL)
     questions.value = res.data
-  } catch {
+  } catch { 
     error.value = 'Error al cargar las preguntas de seguridad'
   }
 }

@@ -1,7 +1,7 @@
 export interface UserRole {
     id?: string;
-    userId?: number;
-    roleId?: number;
-    startAd?: Date;
-    endAd?: Date;
+    user_id?: number;
+    role_id?: number;
+    startAt?: string;
+    endAt?: string;
 }

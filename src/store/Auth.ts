@@ -1,8 +1,8 @@
 import AuthService from '@/service/AuthService';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import type { User } from '../models/User';
 import { useRouter } from 'vue-router';
+import type { User } from '../models/User';
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(AuthService.getCurrentUser());

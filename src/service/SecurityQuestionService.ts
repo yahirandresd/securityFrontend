@@ -1,32 +1,32 @@
-import axios from 'axios';
-import type { SecurityQuestion } from '../models/SecurityQuestion';
+import axios from "axios"
+import type { SecurityQuestion } from "../models/SecurityQuestion"
 
-const API_URL = import.meta.env.VITE_API_URL + '/security-question';
+const API_URL = import.meta.env.VITE_API_URL + "/security-questions"
 
 class SecurityQuestionService {
-  async getAll(): Promise<SecurityQuestion[]> {
-    const response = await axios.get<SecurityQuestion[]>(API_URL);
-    return response.data;
-  }
-  
-  async getById(id: number): Promise<SecurityQuestion> {
-    const response = await axios.get<SecurityQuestion>(`${API_URL}/${id}`);
-    return response.data;
+  async getQuestions() {
+    const response = await axios.get<SecurityQuestion[]>(API_URL)
+    return response
   }
 
-  async create(question: Omit<SecurityQuestion, 'id'>): Promise<SecurityQuestion> {
-    const response = await axios.post<SecurityQuestion>(API_URL, question);
-    return response.data;
+  async getQuestion(id: number) {
+    const response = await axios.get<SecurityQuestion>(`${API_URL}/${id}`)
+    return response
   }
 
-  async update(id: number, question: Partial<SecurityQuestion>): Promise<SecurityQuestion> {
-    const response = await axios.put<SecurityQuestion>(`${API_URL}/${id}`, question);
-    return response.data;
+  async createQuestion(question: SecurityQuestion) {
+    const response = await axios.post<SecurityQuestion>(API_URL, question)
+    return response
   }
 
-  async delete(id: number): Promise<void> {
-    await axios.delete(`${API_URL}/${id}`);
+  async updateQuestion(id: number, question: SecurityQuestion) {
+    const response = await axios.put<SecurityQuestion>(`${API_URL}/${id}`, question)
+    return response
+  }
+
+  async deleteQuestion(id: number) {
+    await axios.delete(`${API_URL}/${id}`)
   }
 }
 
-export default new SecurityQuestionService();
+export default new SecurityQuestionService()

@@ -104,19 +104,27 @@ const isSubmitting = ref(false)
 
 onMounted(async () => {
   try {
-    await userStore.fetchUsers()
+    await userStore.getUsers()
     users.value = userStore.users
 
     if (props.deviceId) {
       const res = await deviceStore.getDevice(props.deviceId)
       if (res.status === 200) {
-        Object.assign(device, res.data)
+        const d = res.data
+
+        // Asignar campos, incluyendo user_id explícitamente
+        device.id = d.id
+        device.name = d.name
+        device.ip = d.ip
+        device.operating_system = d.operating_system
+        device.user_id = d.user_id
       }
     }
   } catch (error) {
     console.error('Error al cargar datos:', error)
   }
 })
+
 
 const validateField = (field: keyof typeof device) => {
   const result = DeviceValidator.validateField(field, device[field])

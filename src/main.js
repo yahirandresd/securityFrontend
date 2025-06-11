@@ -1,11 +1,12 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
-
+import 'leaflet/dist/leaflet.css';
 import Aura from '@primevue/themes/aura';
 import PrimeVue from 'primevue/config';
 import ConfirmationService from 'primevue/confirmationservice';
 import ToastService from 'primevue/toastservice';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 import '@/assets/styles.scss';
 import '@/assets/tailwind.css';

@@ -26,6 +26,12 @@ class AddressService {
     async deleteAddress(id: number) {
         await axios.delete(`${API_URL}/${id}`);
     }
+    
+    async getAddressByUser(id: number) {
+        const response = await axios.get<Address[]>(`${API_URL}/user/${id}`);
+        return response;
+    }
+
 }
 
 export default new AddressService();

@@ -1,8 +1,8 @@
 <template>
-    <div>
-        <h1>Crear Respuesta de Seguridad</h1>
-        <AnswerForm @submit="createAnswer" />
-    </div>
+  <div>
+    <h1>Crear Respuesta de Seguridad</h1>
+    <AnswerForm @submit="createAnswer" />
+  </div>
 </template>
 
 <script setup lang="ts">

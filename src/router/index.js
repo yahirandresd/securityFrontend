@@ -14,6 +14,9 @@ const router = createRouter({
                     path: '/addresses',
                     name: 'addresses',
                     component: () => import('@/views/pages/address/AddressListView.vue'),
+                    path: 'security-questions/create',
+                    name: 'security-questions-create',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionCreate.vue'),
                     meta: {
                         requiresAuth: true
                     }
@@ -22,6 +25,70 @@ const router = createRouter({
                     path: '/addresses/create',
                     name: 'address create',
                     component: () => import('@/views/pages/address/AddressCreate.vue')
+                },
+                {
+                    path: 'Answers/create',
+                    name: 'answers create',
+                    component: () => import('@/views/pages/Answers/AnswersCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures/update/:id',
+                    name: 'digital-signatures-update',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures/create',
+                    name: 'digital-signatures-create',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/security-questions',
+                    name: 'security-questions',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }   
+                },
+                {
+                    path: '/signatures',
+                    name: 'signatures',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/answers',
+                    name: 'answers',
+                    component: () => import('@/views/pages/Answers/AnswerListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/create',
+                    name: 'devises create',
+                    component: () => import('@/views/pages/Devises/DeviseCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/update/:id',
+                    name: 'devises update',
+                    component: () => import('@/views/pages/Devises/DeviseUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: '/devises',

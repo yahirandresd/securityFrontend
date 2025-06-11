@@ -80,7 +80,7 @@ const signature = reactive<{
 });
 
 onMounted(async () => {
-  await userStore.fetchUsers();
+  await userStore.getUsers();
   users.value = userStore.users;
 
   if (props.signatureId) {

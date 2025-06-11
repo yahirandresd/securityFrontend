@@ -1,15 +1,19 @@
 <script setup lang="ts">
+import { Permission } from '@/models/Permission';
+import { Role } from '@/models/Role';
+import { usePermissionStore } from '@/store/PermissionStore';
 import { useRolePermissionStore } from '@/store/RolePermissionStore';
+import { useRoleStore } from '@/store/RoleStore';
 import { RolePermissionValidator } from "@/utils/RolePermissionValidator";
 import Swal from "sweetalert2";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from 'vue-router';
 
-const props = defineProps<{ RolePermissionId?: number }>();
+const props = defineProps<{ RolePermissionId?: string }>();
 
 const RolePermission = reactive({
-            role_id: null;
-            permission_id: null;
+  role_id: null,
+  permission_id: null
 
 });
 
@@ -18,12 +22,37 @@ const isSubmitting = ref(false);
 const successMessFACode = ref("");
 const store = useRolePermissionStore();
 const router = useRouter();
+const roles = ref<Role[]>([]);
+const permissions = ref<Permission[]>([]);
+const roleStore = useRoleStore();
+const permissionStore = usePermissionStore()
+
+
+const loadRoles = async () => {
+  try {
+    const response = await roleStore.fetchRoles(); // o como se llame tu método del store
+    roles.value = response;
+    console.log('Roles cargados:', roles.value);
+  } catch (error) {
+    console.error('Error cargando Roles:', error);
+  }
+};
+
+const loadPermissions = async () => {
+  try {
+    const response = await permissionStore.fetchPermissions(); // o como se llame tu método del store
+    permissions.value = response;
+    console.log('Permisos cargados:', roles.value);
+  } catch (error) {
+    console.error('Error cargando Permisos:', error);
+  }
+};
 
 const validateField = (field: keyof typeof RolePermission) => {
   const result = RolePermissionValidator.validateField(field, RolePermission[field]);
 
   if (!result.success) {
-    errors[field] = result.error.errors[0].messFACode;
+    errors[field] = result.error.errors[0].message;
   } else {
     delete errors[field]; // Borra el error si es válido
   }
@@ -37,6 +66,8 @@ const validateAllFields = () => {
 
 // Cargar rolpermiso si se pasa un RolePermissionId
 onMounted(async () => {
+  await loadPermissions();
+  await loadRoles();
   if (props.RolePermissionId) {
     try {
       const response = await store.getRolePermission(props.RolePermissionId);
@@ -110,17 +141,25 @@ const submitForm = async () => {
 
       <form @submit.prevent="submitForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div class="w-full">
-          <label class="block text-sm font-medium text-gray-700">Id rol:</label>
-          <input v-model="RolePermission.role_id" type="number" @input="validateField('role_id')" @blur="validateField('role_id')"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-          <span class="text-red-500 text-sm" v-if="errors.role_id">{{ errors.role_id }}</span>
+          <label class="block text-sm font-medium text-gray-700">Rol:</label>
+          <select v-model="RolePermission.role_id"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <option disabled value="">Seleccione un rol</option>
+            <option v-for="rol in roles" :key="rol.id" :value="rol.id">{{ rol.name }} ({{ rol.description }})
+            </option>
+          </select>
+          <span class="text-red-500 text-sm" v-if="errors.rol">{{ errors.rol }}</span>
         </div>
 
         <div class="w-full">
-          <label class="block text-sm font-medium text-gray-700">Id permiso:</label>
-          <input v-model="RolePermission.permission_id" type="number" @input="validateField('permission_id')" @blur="validateField('permission_id')"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-          <span class="text-red-500 text-sm" v-if="errors.permission_id">{{ errors.permission_id }}</span>
+          <label class="block text-sm font-medium text-gray-700">Permiso:</label>
+          <select v-model="RolePermission.permission_id"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+            <option disabled value="">Seleccione un permiso</option>
+            <option v-for="permission in permissions" :key="permission.id" :value="permission.id">{{ permission.url }} ({{ permission.method }})
+            </option>
+          </select>
+          <span class="text-red-500 text-sm" v-if="errors.permission">{{ errors.permission }}</span>
         </div>
 
         <div class="col-span-1 md:col-span-2">

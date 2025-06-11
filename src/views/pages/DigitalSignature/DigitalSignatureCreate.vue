@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Crear Firma Digital</h1>
-        <digitalSignatureForm @submit="createDigitalSignature" />
+        <digitalSignatureForm @submit="createSignature" />
     </div>
 </template>
 

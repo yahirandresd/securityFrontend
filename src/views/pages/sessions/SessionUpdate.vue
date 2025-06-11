@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Editar Sesion</h1>
-        <SessionForm v-if="route.params.id" :SessionId="parseInt(route.params.id)" @submit="updateSession" />
+        <SessionForm v-if="route.params.id" :SessionId="(route.params.id)" @submit="updateSession" />
     </div>
 </template>
 

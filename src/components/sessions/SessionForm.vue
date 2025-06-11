@@ -1,36 +1,47 @@
 <script setup lang="ts">
 import { useSessionStore } from '@/store/SessionStore';
+import { useUserStore } from '@/store/UserStore';
 import { SessionValidator } from "@/utils/SessionValidator";
 import Swal from "sweetalert2";
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from 'vue-router';
+import {User} from '@/models/User'
 
-const props = defineProps<{ SessionId?: number }>();
+const props = defineProps<{ SessionId?: string }>();
 
 const Session = reactive({
   user_id: null,
   token: '',
-  expiration: '',
+  expiration: null,
   FACode: '',
   state: '',
 });
 
-const users = ref<Array<{ id: number; name: string }>>([]);
+const users = ref<User[]>([]);
 const errors = reactive<Record<string, string>>({});
 const isSubmitting = ref(false);
 const successMessFACode = ref("");
 const store = useSessionStore();
 const router = useRouter();
+const userStore = useUserStore()
 
 const validateField = (field: keyof typeof Session) => {
   const result = SessionValidator.validateField(field, Session[field]);
   if (!result.success) {
-    errors[field] = result.error.errors[0].messFACode;
+    errors[field] = result.error.errors[0].message;
   } else {
     delete errors[field];
   }
 };
-
+const loadUsers = async () => {
+  try {
+    const response = await userStore.getUsers(); // o como se llame tu método del store
+    users.value = response;
+    console.log('Usuarios cargados:', users.value);
+  } catch (error) {
+    console.error('Error cargando usuarios:', error);
+  }
+};
 const validateAllFields = () => {
   Object.keys(Session).forEach((field) => {
     validateField(field as keyof typeof Session);
@@ -38,15 +49,7 @@ const validateAllFields = () => {
 };
 
 onMounted(async () => {
-  try {
-    const response = await store.getUsers(); // Obtener usuarios del store
-    if (response.status === 200) {
-      users.value = response.data;
-    }
-  } catch (error) {
-    console.error("Error al cargar usuarios:", error);
-  }
-
+  await loadUsers();
   if (props.SessionId) {
     try {
       const response = await store.getSession(props.SessionId);
@@ -62,6 +65,10 @@ onMounted(async () => {
 
 const submitForm = async () => {
   validateAllFields();
+  const payload = {
+    ...Session,
+    expiration: `${Session.expiration} 00:00:00`
+  }
   if (Object.keys(errors).length > 0) return;
 
   isSubmitting.value = true;
@@ -70,9 +77,9 @@ const submitForm = async () => {
   try {
     let response;
     if (props.SessionId) {
-      response = await store.editSession(props.SessionId, Session);
+      response = await store.editSession(props.SessionId, payload);
     } else {
-      response = await store.addSession(Session);
+      response = await store.addSession(payload);
     }
 
     if (response.status === 200 || response.status === 201) {
@@ -102,7 +109,7 @@ const submitForm = async () => {
     });
   } finally {
     isSubmitting.value = false;
-    router.push('/Sessions');
+    router.push('/sessions');
   }
 };
 </script>
@@ -115,20 +122,16 @@ const submitForm = async () => {
       </h2>
 
       <form @submit.prevent="submitForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         <!-- Lista desplegable de usuarios -->
         <div class="w-full">
           <label class="block text-sm font-medium text-gray-700">Usuario:</label>
-          <select v-model="Session.user_id" @change="validateField('user_id')"
+          <select v-model="Session.user_id"
             class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
             <option disabled value="">Seleccione un usuario</option>
-            <option v-for="user in users" :key="user.id" :value="user.id">
-              {{ user.name }}
-            </option>
+            <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }} ({{ user.email }})</option>
           </select>
-          <span class="text-red-500 text-sm" v-if="errors.user_id">{{ errors.user_id }}</span>
+          <span class="text-red-500 text-sm" v-if="errors.user">{{ errors.user }}</span>
         </div>
-
         <div class="w-full">
           <label class="block text-sm font-medium text-gray-700">Token:</label>
           <input v-model="Session.token" type="text" @input="validateField('token')" @blur="validateField('token')"

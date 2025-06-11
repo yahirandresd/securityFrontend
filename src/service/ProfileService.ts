@@ -1,31 +1,34 @@
 import axios from 'axios';
-import type { Profile } from '../models/Profile';
 
-const API_URL = import.meta.env.VITE_API_URL + "/Profiles";
+const API_URL = import.meta.env.VITE_API_URL + "/profiles";
 
 class ProfileService {
     async getProfiles() {
-        const response = await axios.get<Profile[]>(API_URL);
-        return response;
+        return await axios.get(API_URL);
     }
 
     async getProfile(id: number) {
-        const response = await axios.get<Profile>(`${API_URL}/${id}`);
-        return response;
+        return await axios.get(`${API_URL}/${id}`);
     }
 
-    async createProfile(Profile: Profile) {
-        const response = await axios.post<Profile>(API_URL, Profile);
-        return response;
+    async createProfile(formData: FormData) {
+        return await axios.post(`${API_URL}/user/${formData.get('user_id')}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 
-    async updateProfile(id: number, Profile: Profile) {
-        const response = await axios.put<Profile>(`${API_URL}/${id}`, Profile);
-        return response;
+    async updateProfile(id: number, formData: FormData) {
+        return await axios.put(`${API_URL}/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
     }
 
     async deleteProfile(id: number) {
-        await axios.delete(`${API_URL}/${id}`);
+        return await axios.delete(`${API_URL}/${id}`);
     }
 }
 

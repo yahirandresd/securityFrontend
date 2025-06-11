@@ -1,22 +1,51 @@
-import { defineStore } from "pinia";
-import axios from "axios";
+import { defineStore } from 'pinia';
+import { DigitalSignature } from '@/models/DigitalSignature';
+import DigitalSignatureService from '@/service/DigitalSignatureService';
 
-export const useDigitalSignatureStore = defineStore("digitalSignature", {
+export const useDigitalSignatureStore = defineStore('digitalSignature', {
+  state: () => ({
+    signatures: [] as DigitalSignature[],
+  }),
+
   actions: {
-    async getDigitalSignature(id: number) {
-      return await axios.get(`/api/digital-signatures/${id}`);
+    // Obtener todas las firmas digitales
+    async fetchSignatures() {
+      const response = await DigitalSignatureService.getSignatures();
+      this.signatures = response.data;
+      return response;
     },
-    async addDigitalSignature(signature: { photo: string; user_id: number }) {
-      return await axios.post("/api/digital-signatures", signature);
+
+    // Obtener una firma digital por ID
+    async getSignature(id: number) {
+      return await DigitalSignatureService.getSignature(id);
     },
-    async editDigitalSignature(id: number, signature: { photo: string; user_id: number }) {
-      return await axios.put(`/api/digital-signatures/${id}`, signature);
+
+    // Agregar una firma digital (envía solo la foto como objeto)
+    async addSignature(userId: number, file: File) {
+      const response = await DigitalSignatureService.createSignature(userId, { photo: file });
+      if (response.status === 201) {
+        this.signatures.push(response.data);
+      }
+      return response;
     },
-    async deleteDigitalSignature(id: number) {
-      return await axios.delete(`/api/digital-signatures/${id}`);
+
+    // Editar una firma existente
+    async editSignature(id: number, formData: FormData) {
+      const response = await DigitalSignatureService.updateSignature(id, formData);
+      if (response.status === 200) {
+        // Actualiza la firma modificada en el array
+        const index = this.signatures.findIndex(sig => sig.id === id);
+        if (index !== -1) {
+          this.signatures[index] = response.data;
+        }
+      }
+      return response;
     },
-    async listDigitalSignatures() {
-      return await axios.get("/api/digital-signatures");
+
+    // Eliminar una firma
+    async deleteSignature(id: number) {
+      await DigitalSignatureService.deleteSignature(id);
+      this.signatures = this.signatures.filter(signature => signature.id !== id);
     },
   },
 });

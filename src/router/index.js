@@ -1,6 +1,8 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import { useAuthStore } from '@/store/Auth';
 import { createRouter, createWebHistory } from 'vue-router';
+import DashboardVue from '@/views/Dashboard.vue'
+import TokenHandlerVue  from '@/views/TokenHandler.vue'
 
 
 const router = createRouter({
@@ -69,25 +71,25 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: '/devises/create',
-                    name: 'devises create',
-                    component: () => import('@/views/pages/Devises/DeviseCreate.vue'),
+                    path: '/devices/create',
+                    name: 'devicescreate',
+                    component: () => import('@/views/pages/Devices/DeviceCreate.vue'),
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: '/devises/update/:id',
-                    name: 'devises update',
-                    component: () => import('@/views/pages/Devises/DeviseUpdate.vue'),
+                    path: '/devices/update/:id',
+                    name: 'devices update',
+                    component: () => import('@/views/pages/Devices/DeviceUpdate.vue'),
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: '/devises',
-                    name: 'devises',
-                    component: () => import('@/views/pages/Devises/DeviseListView.vue'),
+                    path: '/devices',
+                    name: 'devices',
+                    component: () => import('@/views/pages/Devices/DeviceListView.vue'),
                     meta: {
                         requiresAuth: true
                     }
@@ -172,6 +174,32 @@ const router = createRouter({
                     name: 'profiles update',
                     component: () => import('@/views/pages/profiles/ProfileUpdate.vue'),
                 },
+                {
+                    path: '/profiles/view/:id',
+                    name: 'profiles view',
+                    component: () => import('@/views/pages/profiles/ProfileView.vue'),
+                },
+                {
+                    path: '/rolepermissions',
+                    name: 'rolepermissions',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/rolepermissions/create',
+                    name: 'rolepermissions create',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionCreate.vue'),
+                },
+                {
+                    path: '/rolepermissions/update/:id',
+                    name: 'rolepermissions update',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionUpdate.vue'),
+                },
+                { path: '/', component: DashboardVue },
+                { path: '/redirect', component: TokenHandlerVue },
+
                 {
                     path: '/login2',
                     name: 'login2',

@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { Devise } from "@/models/Devise";
+import { Device } from "@/models/Device";
 
-export class DeviseValidator {
+export class DeviceValidator {
     private static schema = z.object({
         id: z.number().int().nonnegative("El ID debe ser un número entero no negativo."),
         name: z.string().min(1, "El nombre del dispositivo no puede estar vacío."),
@@ -10,7 +10,7 @@ export class DeviseValidator {
         user_id: z.number().int().nonnegative("El ID del usuario debe ser un número entero no negativo."),
     });
 
-    static validateField<K extends keyof Devise>(field: K, value: any) {
+    static validateField<K extends keyof Device>(field: K, value: any) {
         const fieldSchema = this.schema.pick({ [field]: true } as any);
         return fieldSchema.safeParse({ [field]: value });
     }

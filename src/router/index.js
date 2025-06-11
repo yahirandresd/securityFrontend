@@ -1,6 +1,8 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import { useAuthStore } from '@/store/Auth';
 import { createRouter, createWebHistory } from 'vue-router';
+import DashboardVue from '@/views/Dashboard.vue'
+import TokenHandlerVue  from '@/views/TokenHandler.vue'
 
 
 const router = createRouter({
@@ -189,7 +191,7 @@ const router = createRouter({
                     component: () => import('@/views/pages/rolepermissions/RolePermissionListView.vue'),
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
-                    },
+                    }
                 },
                 {
                     path: '/rolepermissions/create',
@@ -201,6 +203,8 @@ const router = createRouter({
                     name: 'rolepermissions update',
                     component: () => import('@/views/pages/rolepermissions/RolePermissionUpdate.vue'),
                 },
+                { path: '/', component: DashboardVue },
+                { path: '/redirect', component: TokenHandlerVue },
 
                 {
                     path: '/login2',

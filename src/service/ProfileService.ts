@@ -11,21 +11,37 @@ class ProfileService {
         return await axios.get(`${API_URL}/${id}`);
     }
 
-    async createProfile(formData: FormData) {
-        return await axios.post(`${API_URL}/user/${formData.get('user_id')}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-    }
+      /**
+   * Crear una firma digital para un usuario
+   * @param userId ID del usuario
+   * @param profile Objeto con la foto (File)
+   */
+    async createProfile(userId: number, profile: { photo: File }) {
+    const formData = new FormData();
+    formData.append("photo", profile.photo);
 
-    async updateProfile(id: number, formData: FormData) {
-        return await axios.put(`${API_URL}/${id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-    }
+    return await axios.post(`${API_URL}/user/${userId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+   }
+
+      /**
+   * Crear una firma digital para un usuario
+   * @param userId ID del usuario
+   * @param profile Objeto con la foto (File)
+   */
+    async updateProfile(userId: number, profile: { photo: File }) {
+    const formData = new FormData();
+    formData.append("photo", profile.photo);
+
+    return await axios.put(`${API_URL}/user/${userId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+   }
 
     async deleteProfile(id: number) {
         return await axios.delete(`${API_URL}/${id}`);

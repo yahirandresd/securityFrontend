@@ -28,6 +28,11 @@
                                     <PencilIcon class="w-5 h-5 mr-1" />
                                     Editar
                                 </router-link>
+                                <router-link :to="`/users/update/${user.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <PencilIcon class="w-5 h-5 mr-1" />
+                                    Editar
+                                </router-link>
                                 <button @click="deleteUser(user.id)"
                                     class="text-red-600 hover:text-red-800 flex items-center">
                                     <TrashIcon class="w-5 h-5 mr-1" />

@@ -34,11 +34,6 @@ const model = ref([
         to: '/pages',
         items: [
             {
-                label: 'Landing',
-                icon: 'pi pi-fw pi-globe',
-                to: '/landing'
-            },
-            {
                 label: 'User Roles',
                 icon: 'pi pi-fw pi-users',
                 to: '/user-roles',
@@ -107,29 +102,24 @@ const model = ref([
         to: '/pages',
         items: [
             {
-                label: 'Landing',
-                icon: 'pi pi-fw pi-globe',
-                to: '/landing'
+                label: 'Permissions',
+                icon: 'pi pi-fw pi-lock', // 🔒 Representa acceso o restricciones
+                to: '/permissions',
             },
             {
-                label: 'Users',
-                icon: 'pi pi-fw pi-user',
-                to: '/users',
+                label: 'Sessions',
+                icon: 'pi pi-fw pi-clock', // ⏰ Representa sesiones activas o duración
+                to: '/sessions',
             },
             {
-                label: 'Address',
-                icon: 'pi pi-fw pi-address-book',
-                to: '/addresses',
+                label: 'Profiles',
+                icon: 'pi pi-fw pi-id-card', // 🪪 Representa información de usuario
+                to: '/profiles',
             },
             {
-                label: 'Passwords',
-                icon: 'pi pi-fw pi-key',
-                to: '/passwords',
-            },
-            {
-                label: 'Roles',
-                icon: 'pi pi-fw pi-shield',
-                to: '/passwords',
+                label: 'RolePermissions',
+                icon: 'pi pi-fw pi-shield', // 🛡️ Representa roles y seguridad
+                to: '/rolepermissions',
             },
         ]
     },
@@ -139,29 +129,24 @@ const model = ref([
         to: '/pages',
         items: [
             {
-                label: 'Landing',
-                icon: 'pi pi-fw pi-globe',
-                to: '/landing'
+                label: 'Devices',
+                icon: 'pi pi-fw pi-tablet', // 📱 Representa dispositivos
+                to: '/devices',
             },
             {
-                label: 'Users',
-                icon: 'pi pi-fw pi-user',
-                to: '/users',
+                label: 'Signatures',
+                icon: 'pi pi-fw pi-pencil', // ✍️ Representa firmas
+                to: '/signatures',
             },
             {
-                label: 'Address',
-                icon: 'pi pi-fw pi-address-book',
-                to: '/addresses',
+                label: 'SecurityQuestion',
+                icon: 'pi pi-fw pi-question-circle', // ❓ Representa preguntas de seguridad
+                to: '/security-questions',
             },
             {
-                label: 'Passwords',
-                icon: 'pi pi-fw pi-key',
-                to: '/passwords',
-            },
-            {
-                label: 'Roles',
-                icon: 'pi pi-fw pi-shield',
-                to: '/passwords',
+                label: 'Answers',
+                icon: 'pi pi-fw pi-check-circle', // ✅ Representa respuestas
+                to: '/answers',
             },
         ]
     },

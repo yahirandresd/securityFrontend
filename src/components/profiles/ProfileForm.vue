@@ -47,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 import Swal from 'sweetalert2';
+import { onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-import { useUserStore } from '@/store/UserStore';
 import { useProfileStore } from '@/store/ProfileStore';
+import { useUserStore } from '@/store/UserStore';
 import { ProfileValidator } from '@/utils/ProfileValidator';
 
 const props = defineProps<{ ProfileId?: number }>();
@@ -67,14 +67,12 @@ const isSubmitting = ref(false);
 
 // Declaramos el estado de la Perfil
 const Profile = reactive<{
-    id: number;
     photo: File | null;
-    user_id: number | '';
-    phone:''
+    user_id: null | number;
+    phone: ''
 }>({
-    id: 0,
     photo: null,
-    user_id: '',
+    user_id: null,
     phone: ''
 });
 
@@ -86,7 +84,6 @@ onMounted(async () => {
         const response = await digitalProfileStore.getProfile(props.ProfileId);
         if (response.status === 200) {
             const data = response.data;
-            Profile.id = data.id;
             Profile.user_id = data.user_id;
             Profile.phone = data.phone
         }
@@ -96,6 +93,8 @@ onMounted(async () => {
 const onFileChange = (e: Event) => {
     const target = e.target as HTMLInputElement;
     const file = target.files?.[0] || null;
+    console.log(file);
+
     Profile.photo = file;
     validateField('photo');
 };
@@ -110,7 +109,7 @@ const validateField = (field: 'photo' | 'user_id' | 'phone') => {
 };
 
 const validateAllFields = () => {
-    (['photo', 'user_id'] as const).forEach(validateField);
+    (['photo', 'user_id', 'phone'] as const).forEach(validateField);
 };
 
 const submitForm = async () => {
@@ -124,12 +123,23 @@ const submitForm = async () => {
 
     try {
         let response;
+        console.log("holaaaa");
+
         if (props.ProfileId) {
             const formData = new FormData();
+            console.log("hola");
+
             formData.append("photo", Profile.photo);
-            response = await digitalProfileStore.editProfile(props.ProfileId, Profile.photo);
+            formData.append("phone", Profile.phone);
+            formData.append("user_id", String(Profile.user_id));
+            response = await digitalProfileStore.editProfile(props.ProfileId, formData);
         } else {
-            response = await digitalProfileStore.addProfile(Profile.user_id as number, Profile.photo);
+            console.log(Profile.photo);
+
+            const formData = new FormData();
+            formData.append("photo", Profile.photo);
+            formData.append("phone", Profile.phone);
+            response = await digitalProfileStore.addProfile(Profile.user_id as number, formData);
         }
 
         if ([200, 201].includes(response.status)) {

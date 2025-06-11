@@ -4,4 +4,4 @@ export interface Address {
     number?: string;
     latitude?: number;
     longitude?: number;
-}
+}   

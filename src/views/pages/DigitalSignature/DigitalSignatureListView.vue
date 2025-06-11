@@ -30,9 +30,9 @@
             <tr v-for="s in signatures" :key="s.id" class="hover:bg-gray-100">
               <td class="px-4 py-3 border">{{ s.id }}</td>
               <td class="px-4 py-3 border">
-                <img :src="s.photo" alt="Firma" class="h-12 object-contain" />
+                <img :src="getPhotoUrl(s.photo)" alt="Firma" class="h-12 object-contain" />
               </td>
-              <td class="px-4 py-3 border">{{ s.user?.name || 'Sin usuario' }}</td>
+              <td class="px-4 py-3 border">ID: {{ s.user_id }}</td>
               <td class="px-4 py-3 border">
                 <div class="flex flex-wrap gap-2">
                   <router-link
@@ -70,20 +70,18 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next'
 
+// Modelo base sin user (usa el que realmente devuelve tu API)
 interface DigitalSignature {
   id: number
-  photo: string
+  photo: string // aseguramos que sea solo URL o base64 string
   user_id: number
-  user?: {
-    id: number
-    name: string
-  }
 }
 
 const signatures = ref<DigitalSignature[]>([])
 const error = ref('')
-const API_URL = import.meta.env.VITE_API_URL + '/signature'
+const API_URL = import.meta.env.VITE_API_URL + '/digital-signatures'
 
+// Cargar firmas desde API
 const fetchSignatures = async () => {
   try {
     const res = await axios.get<DigitalSignature[]>(API_URL)
@@ -93,6 +91,7 @@ const fetchSignatures = async () => {
   }
 }
 
+// Eliminar firma
 const deleteSignature = async (id: number) => {
   if (!confirm('¿Deseas eliminar esta firma?')) return
   try {
@@ -103,5 +102,13 @@ const deleteSignature = async (id: number) => {
   }
 }
 
+// Función segura para obtener URL de la foto
+const getPhotoUrl = (photo: string) => {
+  return photo.startsWith('http') || photo.startsWith('data:')
+    ? photo
+    : `${import.meta.env.VITE_API_URL}/storage/${photo}`
+}
+
 onMounted(fetchSignatures)
 </script>
+  

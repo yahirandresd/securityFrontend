@@ -67,25 +67,25 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: '/devises/create',
-                    name: 'devises create',
-                    component: () => import('@/views/pages/Devises/DeviseCreate.vue'),
+                    path: '/devices/create',
+                    name: 'devicescreate',
+                    component: () => import('@/views/pages/Devices/DeviceCreate.vue'),
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: '/devises/update/:id',
-                    name: 'devises update',
-                    component: () => import('@/views/pages/Devises/DeviseUpdate.vue'),
+                    path: '/devices/update/:id',
+                    name: 'devices update',
+                    component: () => import('@/views/pages/Devices/DeviceUpdate.vue'),
                     meta: {
                         requiresAuth: true
                     }
                 },
                 {
-                    path: '/devises',
-                    name: 'devises',
-                    component: () => import('@/views/pages/Devises/DeviseListView.vue'),
+                    path: '/devices',
+                    name: 'devices',
+                    component: () => import('@/views/pages/Devices/DeviceListView.vue'),
                     meta: {
                         requiresAuth: true
                     }

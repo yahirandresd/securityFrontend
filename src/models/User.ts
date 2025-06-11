@@ -10,5 +10,5 @@ export interface User {
     city?: string;
     phone?: string;
     is_active?: boolean;
-    toke?: string;
+    token?: string;
 }

@@ -12,18 +12,18 @@ export const useRolePermissionStore = defineStore('RolePermissionStore', {
             this.RolePermissions = response.data
             return this.RolePermissions
         },
-        async getRolePermission(id: number) {
+        async getRolePermission(id: string) {
             return await RolePermissionService.getRolePermission(id);
         },
         async addRolePermission(RolePermission: RolePermission) {
             return await RolePermissionService.createRolePermission(RolePermission);
         },
-        async editRolePermission(id: number, RolePermission: RolePermission) {
+        async editRolePermission(id: string, RolePermission: RolePermission) {
             return await RolePermissionService.updateRolePermission(id, RolePermission);
 
         },
-        async removeRolePermission(id: number) {
-            return await RolePermissionService.deleteRolePermission(id);
+        async removeRolePermission(RolePermission: RolePermission) {
+            return await RolePermissionService.deleteRolePermission(RolePermission);
         },
     }
 });

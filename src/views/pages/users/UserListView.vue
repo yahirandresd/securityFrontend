@@ -51,13 +51,13 @@ import { computed, onMounted } from 'vue';
 const store = useUserStore();
 
 onMounted(() => {
-    store.fetchUsers();
+    store.getUsers();
 });
 
 // Siempre está pendiente si hay un cambio en el store
 const users = computed(() => store.users);
 const deleteUser = async (id: number) => {
     await store.removeUser(id);
-    await store.fetchUsers();
+    await store.getUsers();
 };
 </script>

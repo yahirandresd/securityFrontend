@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="rolepermission in rolepermissions" :key="rolePermission.id" class="hover:bg-gray-100 transition">
+                        <tr v-for="rolepermission in rolepermissions" :key="rolepermission.id" class="hover:bg-gray-100 transition">
                             <td class="px-4 py-2 border">{{ rolepermission.role_id }}</td>
                             <td class="px-4 py-2 border">{{ rolepermission.permission_id }}</td>
                             <td class="px-4 py-2 border flex space-x-4">
@@ -27,7 +27,7 @@
                                     <PencilIcon class="w-5 h-5 mr-1" />
                                     Editar
                                 </router-link>
-                                <button @click="deleteRolePermission(rolepermission.id)"
+                                <button @click="deleteRolePermission(rolepermission)"
                                     class="text-red-600 hover:text-red-800 flex items-center">
                                     <TrashIcon class="w-5 h-5 mr-1" />
                                     Eliminar
@@ -43,6 +43,7 @@
 
 
 <script setup lang="ts">
+import { RolePermission } from '@/models/RolePermission';
 import { useRolePermissionStore } from '@/store/RolePermissionStore';
 import { PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
@@ -54,9 +55,9 @@ onMounted(() => {
 });
 
 // Siempre está pendiente si hay un cambio en el store
-const rolepermissions = computed(() => store.rolepermissions);
-const deleteRolePermission = async (id: string) => {
-    await store.removeRolePermission(id);
+const rolepermissions = computed(() => store.RolePermissions);
+const deleteRolePermission = async ( RolePermission:RolePermission) => {
+    await store.removeRolePermission(RolePermission);
     await store.fetchRolePermissions();
 };
 </script>

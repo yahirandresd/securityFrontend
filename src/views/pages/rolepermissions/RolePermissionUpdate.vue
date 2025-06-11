@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Editar Permiso a rol</h1>
-        <RolePermissionForm v-if="route.params.id" :RolePermissionId="parseInt(route.params.id)" @submit="updateRolePermission" />
+        <RolePermissionForm v-if="route.params.id" :RolePermissionId="(route.params.id)" @submit="updateRolePermission" />
     </div>
 </template>
 

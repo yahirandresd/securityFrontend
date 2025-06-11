@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gray-100 p-6">
         <div class=" mx-auto bg-white shadow-lg rounded-lg p-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Permisoes</h1>
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Permisos</h1>
 
             <router-link to="/permissions/create"
                 class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition mb-4">
@@ -56,7 +56,7 @@ onMounted(() => {
 });
 
 // Siempre está pendiente si hay un cambio en el store
-const permissions = computed(() => store.permissions);
+const permissions = computed(() => store.Permissions);
 const deletePermission = async (id: number) => {
     await store.removePermission(id);
     await store.fetchPermissions();

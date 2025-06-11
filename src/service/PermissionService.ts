@@ -10,7 +10,7 @@ class PermissionService {
         return response;
     }
     async getGroupedPermissions(id:number) {
-        const response = await axios.get<Role>(`${API_URL}/${id}`);
+        const response = await axios.get<Role>(`${API_URL}grouped/role/${id}`);
         return response;
     }
 

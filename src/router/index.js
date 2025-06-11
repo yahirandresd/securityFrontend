@@ -11,6 +11,86 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/addresses',
+                    name: 'addresses',
+                    component: () => import('@/views/pages/address/AddressListView.vue'),
+                    path: 'security-questions/create',
+                    name: 'security-questions-create',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/addresses/create',
+                    name: 'address create',
+                    component: () => import('@/views/pages/address/AddressCreate.vue')
+                },
+                {
+                    path: 'Answers/create',
+                    name: 'answers create',
+                    component: () => import('@/views/pages/Answers/AnswersCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures/update/:id',
+                    name: 'digital-signatures-update',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures/create',
+                    name: 'digital-signatures-create',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/security-questions',
+                    name: 'security-questions',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/signatures',
+                    name: 'signatures',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/answers',
+                    name: 'answers',
+                    component: () => import('@/views/pages/Answers/AnswerListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/create',
+                    name: 'devises create',
+                    component: () => import('@/views/pages/Devises/DeviseCreate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/devises/update/:id',
+                    name: 'devises update',
+                    component: () => import('@/views/pages/Devises/DeviseUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/devises',
                     name: 'devises',
                     component: () => import('@/views/pages/Devises/DeviseListView.vue'),
@@ -21,7 +101,10 @@ const router = createRouter({
                 {
                     path: '/',
                     name: 'dashboard',
-                    component: () => import('@/views/Dashboard.vue')
+                    component: () => import('@/views/Dashboard.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: '/users',
@@ -77,7 +160,7 @@ const router = createRouter({
                     name: 'permissions update',
                     component: () => import('@/views/pages/permissions/PermissionUpdate.vue'),
                 },
-                       {
+                {
                     path: '/profiles',
                     name: 'profiles',
                     component: () => import('@/views/pages/profiles/ProfileListView.vue'),
@@ -95,6 +178,30 @@ const router = createRouter({
                     name: 'profiles update',
                     component: () => import('@/views/pages/profiles/ProfileUpdate.vue'),
                 },
+                {
+                    path: '/profiles/view/:id',
+                    name: 'profiles view',
+                    component: () => import('@/views/pages/profiles/ProfileView.vue'),
+                },
+                {
+                    path: '/rolepermissions',
+                    name: 'rolepermissions',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    },
+                },
+                {
+                    path: '/rolepermissions/create',
+                    name: 'rolepermissions create',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionCreate.vue'),
+                },
+                {
+                    path: '/rolepermissions/update/:id',
+                    name: 'rolepermissions update',
+                    component: () => import('@/views/pages/rolepermissions/RolePermissionUpdate.vue'),
+                },
+
                 {
                     path: '/login2',
                     name: 'login2',
@@ -227,7 +334,7 @@ router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();  // Obtener el estado de autenticación desde Pinia
     if (to.meta.requiresAuth && !authStore.isAuthenticated) {
         // Si la ruta requiere autenticación y el usuario no está logueado, redirigir al login
-        next({ path: '/login2' });
+        next({ path: '/auth/login' });
     } else {
         // Si no requiere autenticación o el usuario está logueado, continuar con la ruta
         next();

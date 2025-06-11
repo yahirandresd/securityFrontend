@@ -3,14 +3,10 @@ import { z } from "zod";
 
 export class UserRoleValidator {
     private static schema = z.object({
-        userId: z.number().min(1, "El nombre debe tener al menos 3 caracteres."),
-        roleId: z.number().min(1, "Descripción debe tener al menos 6 caracteres."),
-        startAd: z.date({
-            required_error: "La fecha de inicio es obligatoria.",
-        }),
-        endAd: z.date({
-            required_error: "La fecha de fin es obligatoria.",
-        }),
+        user_id: z.number().min(1, "El nombre debe tener al menos 3 caracteres."),
+        role_id: z.number().min(1, "Descripción debe tener al menos 6 caracteres."),
+        startAt: z.preprocess(val => new Date(val as string), z.date()),
+        endAt: z.preprocess(val => new Date(val as string), z.date()),
     });
 
     static validateField<K extends keyof UserRole>(field: K, value: any) {

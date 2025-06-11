@@ -29,7 +29,7 @@ const model = ref([
         ]
     },*/
     {
-        label: 'Pages',
+        label: 'Amarillo',
         icon: 'pi pi-fw pi-briefcase',
         to: '/pages',
         items: [
@@ -39,11 +39,31 @@ const model = ref([
                 to: '/landing'
             },
             {
+                label: 'User Roles',
+                icon: 'pi pi-fw pi-users',
+                to: '/user-roles',
+            },
+            {
                 label: 'Users',
                 icon: 'pi pi-fw pi-user',
                 to: '/users',
             },
             {
+                label: 'Address',
+                icon: 'pi pi-fw pi-address-book',
+                to: '/addresses',
+            },
+            {
+                label: 'Passwords',
+                icon: 'pi pi-fw pi-key',
+                to: '/passwords',
+            },
+            {
+                label: 'Roles',
+                icon: 'pi pi-fw pi-shield',
+                to: '/roles',
+            },
+            /*{
                 label: 'Auth',
                 icon: 'pi pi-fw pi-user',
                 items: [
@@ -64,7 +84,7 @@ const model = ref([
                     }
                 ]
             },
-            {
+            /*{
                 label: 'Crud',
                 icon: 'pi pi-fw pi-pencil',
                 to: '/pages/crud'
@@ -78,7 +98,71 @@ const model = ref([
                 label: 'Empty',
                 icon: 'pi pi-fw pi-circle-off',
                 to: '/pages/empty'
-            }
+            }*/
+        ]
+    },
+    {
+        label: 'Azul',
+        icon: 'pi pi-fw pi-briefcase',
+        to: '/pages',
+        items: [
+            {
+                label: 'Landing',
+                icon: 'pi pi-fw pi-globe',
+                to: '/landing'
+            },
+            {
+                label: 'Users',
+                icon: 'pi pi-fw pi-user',
+                to: '/users',
+            },
+            {
+                label: 'Address',
+                icon: 'pi pi-fw pi-address-book',
+                to: '/addresses',
+            },
+            {
+                label: 'Passwords',
+                icon: 'pi pi-fw pi-key',
+                to: '/passwords',
+            },
+            {
+                label: 'Roles',
+                icon: 'pi pi-fw pi-shield',
+                to: '/passwords',
+            },
+        ]
+    },
+    {
+        label: 'Verde',
+        icon: 'pi pi-fw pi-briefcase',
+        to: '/pages',
+        items: [
+            {
+                label: 'Landing',
+                icon: 'pi pi-fw pi-globe',
+                to: '/landing'
+            },
+            {
+                label: 'Users',
+                icon: 'pi pi-fw pi-user',
+                to: '/users',
+            },
+            {
+                label: 'Address',
+                icon: 'pi pi-fw pi-address-book',
+                to: '/addresses',
+            },
+            {
+                label: 'Passwords',
+                icon: 'pi pi-fw pi-key',
+                to: '/passwords',
+            },
+            {
+                label: 'Roles',
+                icon: 'pi pi-fw pi-shield',
+                to: '/passwords',
+            },
         ]
     },
     /*{

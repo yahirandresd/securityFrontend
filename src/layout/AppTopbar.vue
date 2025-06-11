@@ -18,11 +18,14 @@ const socket = io('http://localhost:5000'); // Cambia la URL por la de tu servid
 const message = ref('');
 
 onMounted(() => {
-    socket.on('new_notification', (data) => {
+    socket.on('new_znotification', (data) => {
         message.value = data;
         console.log('Llegando notificaciones ' + JSON.stringify(data));
     });
 });
+function logout() {
+    authStore.logout(); // Asegúrate de que este método esté en tu store
+}
 
 onUnmounted(() => {
     socket.disconnect();
@@ -99,7 +102,7 @@ onUnmounted(() => {
                             <span>Profile</span>
                         </button>
 
-                        <button @click="handleLogout" title="Cerrar sesión" style="background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center">
+                        <button @click="logout" title="Cerrar sesión" style="background: none; border: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center">
                             <img src="https://img.icons8.com/ios/50/exit--v1.png" alt="Cerrar sesión" width="32" height="32" style="width: 24px; height: 24px" />
                         </button>
                     </div>

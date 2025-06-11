@@ -60,7 +60,7 @@ onMounted(() => {
 });
 
 // Siempre está pendiente si hay un cambio en el store
-const sessions = computed(() => store.sessions);
+const sessions = computed(() => store.Sessions);
 const deleteSession = async (id: string) => {
     await store.removeSession(id);
     await store.fetchSessions();

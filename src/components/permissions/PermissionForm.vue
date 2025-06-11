@@ -8,9 +8,9 @@ import { useRouter } from 'vue-router';
 const props = defineProps<{ PermissionId?: number }>();
 
 const Permission = reactive({
-    url: '';
-    method: '';
-    entity: '';
+    url: '',
+    method: '',
+    entity: '',
 });
 
 const errors = reactive<Record<string, string>>({});
@@ -97,7 +97,7 @@ const submitForm = async () => {
     } finally {
         isSubmitting.value = false;
     }
-    router.push('/Permissions');
+    router.push('/permissions');
 };
 </script>
 

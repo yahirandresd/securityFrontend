@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import type { User } from '@/models/User'; // Asegúrate que este path sea correcto
 import { useAddressStore } from '@/store/AddressStore';
 import { useUserStore } from '@/store/UserStore';
 import { AddressValidator } from '@/utils/AddressValidators';
 import Swal from 'sweetalert2';
 import { onMounted, reactive, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import type { User } from '@/models/User'; // Asegúrate que este path sea correcto
-
 
 const props = defineProps<{ addressId?: number }>();
 
@@ -18,6 +17,11 @@ const address = reactive({
     user_id: null // Asumiendo que el address tiene un campo userId
 });
 
+function updateCoords({ lat, lng }: { lat: number; lng: number }) {
+    address.latitude = lat;
+    address.longitude = lng;
+}
+
 const errors = reactive<Record<string, string>>({});
 const isSubmitting = ref(false);
 const successMessage = ref('');
@@ -28,15 +32,15 @@ const users = ref<User[]>([]);
 const userStore = useUserStore(); // si ya tienes un store de usuarios
 
 const loadUsers = async () => {
-  try {
-    const response = await userStore.getUsers(); // o como se llame tu método del store
-    users.value = response;
-    console.log('Usuarios cargados:', users.value);
-  } catch (error) {
-    console.error('Error cargando usuarios:', error);
-  }
+    try {
+        const response = await userStore.getUsers(); // o como se llame tu método del store
+        
+        users.value = response;
+        console.log('Usuarios cargados:', users.value);
+    } catch (error) {
+        console.error('Error cargando usuarios:', error);
+    }
 };
-
 
 const validateField = (field: keyof typeof address) => {
     const result = AddressValidator.validateField(field, address[field]);
@@ -55,20 +59,19 @@ const validateAllFields = () => {
 };
 
 onMounted(async () => {
-  await loadUsers();
+    await loadUsers();
 
-  if (props.addressId) {
-    try {
-      const response = await store.getAddress(props.addressId);
-      if (response.status == 200) {
-        Object.assign(address, response.data);
-      }
-    } catch (error) {
-      console.error("Error al cargar address:", error);
+    if (props.addressId) {
+        try {
+            const response = await store.getAddress(props.addressId);
+            if (response.status == 200) {
+                Object.assign(address, response.data);
+            }
+        } catch (error) {
+            console.error('Error al cargar address:', error);
+        }
     }
-  }
 });
-
 
 const submitForm = async () => {
     validateAllFields();
@@ -130,7 +133,10 @@ const submitForm = async () => {
                     <label class="block text-sm font-medium text-gray-700">Usuario:</label>
                     <select v-model="address.user_id" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
                         <option disabled value="">Seleccione un usuario</option>
-                        <option v-for="user in users" :key="user.id" :value="user.id">{{ user.name }} ({{ user.email }})</option>
+                        <option v-for="user in users" :key="user.id" :value="user.id" :disabled="user.has_address">
+                            {{ user.name }} ({{ user.email }})
+                            <span v-if="user.address"> - Ya tiene dirección</span>
+                        </option>
                     </select>
                     <span class="text-red-500 text-sm" v-if="errors.user">{{ errors.user }}</span>
                 </div>
@@ -149,14 +155,18 @@ const submitForm = async () => {
 
                 <div class="w-full">
                     <label class="block text-sm font-medium text-gray-700">Latitud:</label>
-                    <input v-model="address.latitude" type="number" @input="validateField('latitude')" @blur="validateField('latitude')" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-                    <span class="text-red-500 text-sm" v-if="errors.latitude">{{ errors.latitude }}</span>
+                    <input v-model="address.latitude" type="number" disabled class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600" />
                 </div>
 
                 <div class="w-full">
                     <label class="block text-sm font-medium text-gray-700">Longitud:</label>
-                    <input v-model="address.longitude" type="number" @input="validateField('longitude')" @blur="validateField('longitude')" class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" />
-                    <span class="text-red-500 text-sm" v-if="errors.longitude">{{ errors.longitude }}</span>
+                    <input v-model="address.longitude" type="number" disabled class="mt-1 block w-full p-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600" />
+                </div>
+                <br />
+                <div class="text-center">
+                    <label class="block text-sm font-medium text-gray-700">Selecciona una ubicación en el mapa:</label>
+                    <p class="text-sm text-gray-500 mb-2">Haz clic en el mapa para seleccionar la ubicación.</p>
+                    <MapSelector @location-selected="updateCoords" />
                 </div>
 
                 <div class="col-span-1 md:col-span-2">

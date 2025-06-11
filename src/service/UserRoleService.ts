@@ -14,7 +14,7 @@ class UserRoleService {
     }
 
     async createUserRole(userRole: UserRole) {
-        const response = await axios.post<UserRole>(API_URL, userRole);
+        const response = await axios.post<UserRole>(`${API_URL}/user/${userRole.user_id}/role/${userRole.role_id}`, userRole);
         return response;
     }
 

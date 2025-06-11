@@ -17,14 +17,22 @@
                             <th class="px-4 py-2 border">Number</th>
                             <th class="px-4 py-2 border">Latitud</th>
                             <th class="px-4 py-2 border">Longitud</th>
+                            <th class="px-4 py-2 border">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="address in address" :key="address.id" class="hover:bg-gray-100 transition">
                             <td class="px-4 py-2 border">{{ address.street }}</td>
                             <td class="px-4 py-2 border">{{ address.number }}</td>
+                            <td class="px-4 py-2 border">{{ address.latitude }}</td>
+                            <td class="px-4 py-2 border">{{ address.longitude }}</td>
                             <td class="px-4 py-2 border flex space-x-4">
-                                <router-link :to="`/users/update/${address.id}`"
+                                <router-link :to="`/addresses/view/${address.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <EyeIcon class="w-5 h-5 mr-1" />
+                                    Ver
+                                </router-link>
+                                <router-link :to="`/addresses/update/${address.id}`"
                                     class="text-blue-600 hover:text-blue-800 flex items-center">
                                     <PencilIcon class="w-5 h-5 mr-1" />
                                     Editar
@@ -46,7 +54,7 @@
 
 <script setup lang="ts">
 import { useAddressStore } from '@/store/AddressStore';
-import { PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next';
+import { PencilIcon, PlusCircleIcon, TrashIcon, EyeIcon } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
 
 const store = useAddressStore();

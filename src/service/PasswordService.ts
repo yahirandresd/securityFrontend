@@ -14,7 +14,7 @@ class PasswordService {
     }
 
     async createPassword(password: Password) {
-        const response = await axios.post<Password>(API_URL, password);
+        const response = await axios.post<Password>(`${API_URL}/user/${password.user_id}`, password);
         return response;
     }
 

@@ -6,7 +6,6 @@ export class SessionValidator {
         user_id: z.number(),
         FACode: z.string().min(6, "El FACode debe tener al menos 6 caracteres."),
         token: z.string().min(6, "El token debe tener al menos 6 caracteres."),
-        expiration: z.date(),
         state: z.string().optional(),
     });
 

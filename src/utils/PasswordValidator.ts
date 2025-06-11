@@ -4,12 +4,9 @@ import { z } from "zod";
 export class PasswordValidator {
     private static schema = z.object({
         content: z.string().min(3, "El nombre debe tener al menos 3 caracteres."),
-        startAd: z.date({
-            required_error: "La fecha de inicio es obligatoria.",
-        }),
-        endAd: z.date({
-            required_error: "La fecha de fin es obligatoria.",
-        }),
+        startAt: z.preprocess(val => new Date(val as string), z.date()),
+        endAt: z.preprocess(val => new Date(val as string), z.date()),
+        user_id: z.number().int().optional(),
     });
 
     static validateField<K extends keyof Password>(field: K, value: any) {

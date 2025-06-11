@@ -15,11 +15,11 @@ export const useProfileStore = defineStore('ProfileStore', {
         async getProfile(id: number) {
             return await ProfileService.getProfile(id);
         },
-        async addProfile(Profile: Profile) {
-            return await ProfileService.createProfile(Profile);
+        async addProfile(formData: FormData) {
+            return await ProfileService.createProfile(formData);
         },
-        async editProfile(id: number, Profile: Profile) {
-            return await ProfileService.updateProfile(id, Profile);
+        async editProfile(id: number, formData: FormData) {
+            return await ProfileService.updateProfile(id, formData);
 
         },
         async removeProfile(id: number) {

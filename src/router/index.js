@@ -11,12 +11,20 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/addresses',
+                    name: 'addresses',
+                    component: () => import('@/views/pages/address/AddressListView.vue'),
                     path: 'security-questions/create',
                     name: 'security-questions-create',
                     component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionCreate.vue'),
                     meta: {
                         requiresAuth: true
                     }
+                },
+                {
+                    path: '/addresses/create',
+                    name: 'address create',
+                    component: () => import('@/views/pages/address/AddressCreate.vue')
                 },
                 {
                     path: 'Answers/create',

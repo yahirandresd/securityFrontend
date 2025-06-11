@@ -7,7 +7,7 @@ export const useUserStore = defineStore('userStore', {
         users: [] as User[],
     }),
     actions: {
-        async fetchUsers() {
+        async getUsers() {
             let response = await UserService.getUsers();
             this.users = response.data
             return this.users

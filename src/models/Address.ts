@@ -5,4 +5,4 @@ export interface Address {
     latitude?: number;
     longitude?: number;
     user_id?: number;
-}
+}   

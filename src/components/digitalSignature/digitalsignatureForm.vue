@@ -2,31 +2,29 @@
   <div class="min-h-screen bg-gray-100 p-6">
     <div class="w-full bg-white shadow-lg rounded-lg p-8">
       <h2 class="text-3xl font-bold text-gray-800 mb-6 text-center">
-        {{ props.digitalSignatureId ? "Editar Firma Digital" : "Crear Firma Digital" }}
+        {{ props.signatureId ? "Editar Firma Digital" : "Crear Firma Digital" }}
       </h2>
 
       <form @submit.prevent="submitForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Campo para la Foto -->
+        <!-- Archivo de Firma -->
         <div class="w-full md:col-span-2">
-          <label class="block text-sm font-medium text-gray-700">Foto de Firma:</label>
-          <div class="flex items-center gap-2 mt-1">
-            <input type="text" readonly :value="signature.photo"
-              class="flex-1 p-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-700" />
-            <label class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 cursor-pointer transition">
-              Seleccionar
-              <input type="file" accept="image/*" @change="handleFileChange" class="hidden" />
-            </label>
-          </div>
+          <label class="block text-sm font-medium text-gray-700">Firma (archivo de imagen):</label>
+          <input
+            type="file"
+            accept="image/*"
+            @change="onFileChange"
+            class="w-full p-2 border border-gray-300 rounded-lg"
+          />
           <span class="text-red-500 text-sm" v-if="errors.photo">{{ errors.photo }}</span>
         </div>
 
-        <!-- Campo para Usuario -->
+        <!-- Selección de Usuario -->
         <div class="w-full">
           <label class="block text-sm font-medium text-gray-700">Usuario:</label>
           <select
-            v-model="signature.user_id"
+            v-model.number="signature.user_id"
             @change="validateField('user_id')"
-            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full p-2 border border-gray-300 rounded-lg"
           >
             <option disabled value="">Seleccione un usuario</option>
             <option v-for="user in users" :key="user.id" :value="user.id">
@@ -43,7 +41,7 @@
             :disabled="Object.keys(errors).length > 0 || isSubmitting"
             class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition disabled:bg-gray-400"
           >
-            {{ isSubmitting ? "Enviando..." : props.digitalSignatureId ? "Actualizar" : "Crear" }}
+            {{ isSubmitting ? "Enviando..." : props.signatureId ? "Actualizar" : "Crear" }}
           </button>
         </div>
       </form>
@@ -52,55 +50,57 @@
 </template>
 
 <script setup lang="ts">
-import { useDigitalSignatureStore } from '@/store/DigitalSignatureStore';
-import { DigitalSignatureValidator } from "@/utils/DigitalSignatureValidator";
-import Swal from "sweetalert2";
-import { onMounted, reactive, ref } from "vue";
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import Swal from 'sweetalert2';
+
 import { useUserStore } from '@/store/UserStore';
-import type { User } from '@/models/User'; // Asegúrate de que este tipo exista
+import { useDigitalSignatureStore } from '@/store/DigitalSignatureStore';
+import { DigitalSignatureValidator } from '@/utils/DigitalSignatureValidator';
 
-const props = defineProps<{ digitalSignatureId?: number }>();
+const props = defineProps<{ signatureId?: number }>();
 
-const signature = reactive({
-  id: 0,
-  photo: "",
-  user_id: 0,
-});
+const router = useRouter();
+const digitalSignatureStore = useDigitalSignatureStore();
+const userStore = useUserStore();
 
+const users = ref([]);
 const errors = reactive<Record<string, string>>({});
 const isSubmitting = ref(false);
-const store = useDigitalSignatureStore();
-const router = useRouter();
 
-// Store de usuarios
-const userStore = useUserStore();
-const users = ref<{ id: number; name: string }[]>([]);
+// Declaramos el estado de la firma
+const signature = reactive<{
+  id: number;
+  photo: File | null;
+  user_id: number | '';
+}>({
+  id: 0,
+  photo: null,
+  user_id: '',
+});
 
-// Cargar usuarios y datos de firma si aplica
 onMounted(async () => {
-  try {
-    await userStore.fetchUsers();
-    users.value = userStore.users
-      .filter((u: User) => u.id !== undefined && u.name !== undefined)
-      .map((u: User) => ({ id: u.id!, name: u.name! }));
-  } catch (error) {
-    console.error("Error al cargar usuarios:", error);
-  }
+  await userStore.fetchUsers();
+  users.value = userStore.users;
 
-  if (props.digitalSignatureId) {
-    try {
-      const response = await store.getDigitalSignature(props.digitalSignatureId);
-      if (response.status === 200) {
-        Object.assign(signature, response.data);
-      }
-    } catch (error) {
-      console.error("Error al cargar firma digital:", error);
+  if (props.signatureId) {
+    const response = await digitalSignatureStore.getSignature(props.signatureId);
+    if (response.status === 200) {
+      const data = response.data;
+      signature.id = data.id;
+      signature.user_id = data.user_id;
     }
   }
 });
 
-const validateField = (field: keyof typeof signature) => {
+const onFileChange = (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  const file = target.files?.[0] || null;
+  signature.photo = file;
+  validateField('photo');
+};
+
+const validateField = (field: 'photo' | 'user_id') => {
   const result = DigitalSignatureValidator.validateField(field, signature[field]);
   if (!result.success) {
     errors[field] = result.error.errors[0].message;
@@ -110,59 +110,54 @@ const validateField = (field: keyof typeof signature) => {
 };
 
 const validateAllFields = () => {
-  Object.keys(signature).forEach((field) => {
-    validateField(field as keyof typeof signature);
-  });
-};
-
-const handleFileChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  const file = target.files?.[0];
-  if (file) {
-    signature.photo = file.name;
-    validateField('photo');
-  }
+  (['photo', 'user_id'] as const).forEach(validateField);
 };
 
 const submitForm = async () => {
   validateAllFields();
-  if (Object.keys(errors).length > 0) return;
+  if (Object.keys(errors).length > 0 || !signature.photo) {
+    if (!signature.photo) errors.photo = "Debe subir un archivo de imagen";
+    return;
+  }
 
   isSubmitting.value = true;
 
   try {
     let response;
-    if (props.digitalSignatureId) {
-      response = await store.editDigitalSignature(props.digitalSignatureId, signature);
+    if (props.signatureId) {
+      const formData = new FormData();
+      formData.append("photo", signature.photo);
+      response = await digitalSignatureStore.editSignature(props.signatureId, formData);
     } else {
-      response = await store.addDigitalSignature(signature);
+      response = await digitalSignatureStore.addSignature(signature.user_id as number, signature.photo);
     }
 
-    if (response.status === 200 || response.status === 201) {
+    if ([200, 201].includes(response.status)) {
       Swal.fire({
         title: 'Éxito',
-        text: props.digitalSignatureId ? 'Firma actualizada con éxito ✅' : 'Firma creada con éxito ✅',
+        text: props.signatureId ? 'Firma actualizada con éxito ✅' : 'Firma creada con éxito ✅',
         icon: 'success',
+        timer: 3000,
         confirmButtonText: 'OK',
-        timer: 3000
       });
-      router.push('/digital-signature');
+      router.push('/signatures');
     } else {
       Swal.fire({
         title: 'Error',
         text: `❌ Código ${response.status}: ${response.data?.message || 'Ocurrió un error'}`,
         icon: 'error',
+        timer: 3000,
         confirmButtonText: 'Intentar de nuevo',
-        timer: 3000
       });
     }
   } catch (error) {
+    console.error(error);
     Swal.fire({
       title: 'Error',
       text: '❌ Error inesperado en la operación.',
       icon: 'error',
+      timer: 3000,
       confirmButtonText: 'OK',
-      timer: 3000
     });
   } finally {
     isSubmitting.value = false;

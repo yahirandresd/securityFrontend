@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Dispositivos</h1>
 
       <router-link
-        to="/devises/create"
+        to="/devices/create"
         class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition mb-4"
       >
         <PlusCircleIcon class="w-5 h-5 mr-2" />
@@ -23,12 +23,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-if="devises.length === 0">
+            <tr v-if="devices.length === 0">
               <td colspan="5" class="px-4 py-4 text-center text-gray-500">
                 No hay dispositivos registrados.
               </td>
             </tr>
-            <tr v-for="d in devises" :key="d.id" class="hover:bg-gray-100">
+            <tr v-for="d in devices" :key="d.id" class="hover:bg-gray-100">
               <td class="px-4 py-3 border">{{ d.name }}</td>
               <td class="px-4 py-3 border">{{ d.ip }}</td>
               <td class="px-4 py-3 border">{{ d.operating_system }}</td>
@@ -36,19 +36,19 @@
               <td class="px-4 py-3 border">
                 <div class="flex flex-wrap gap-2">
                   <router-link
-                    :to="`/devises/${d.id}`"
+                    :to="`/devices/${d.id}`"
                     class="text-green-600 hover:text-green-800 flex items-center"
                   >
                     <EyeIcon class="w-4 h-4 mr-1" /> Ver
                   </router-link>
                   <router-link
-                    :to="`/devises/update/${d.id}`"
+                    :to="`/devices/update/${d.id}`"
                     class="text-blue-600 hover:text-blue-800 flex items-center"
                   >
                     <PencilIcon class="w-4 h-4 mr-1" /> Editar
                   </router-link>
                   <button
-                    @click="deleteDevise(d.id)"
+                    @click="deleteDevice(d.id)"
                     class="text-red-600 hover:text-red-800 flex items-center"
                   >
                     <TrashIcon class="w-4 h-4 mr-1" /> Eliminar
@@ -71,7 +71,7 @@ import axios from 'axios'
 import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next'
 
 // Ahora incluye el usuario
-interface Devise {
+interface Device {
   id: number
   name: string
   ip: string
@@ -82,28 +82,29 @@ interface Devise {
   }
 }
 
-const devises = ref<Devise[]>([])
+const devices = ref<Device[]>([])
 const error = ref('')
-const API_URL = import.meta.env.VITE_API_URL + '/devise'
+const userId = 1; // Cambia esto por el ID del usuario correspondiente
+const API_URL = import.meta.env.VITE_API_URL + `/device`
 
-const fetchDevises = async () => {
+const fetchDevices = async () => {
   try {
-    const res = await axios.get<Devise[]>(API_URL)
-    devises.value = res.data
+    const res = await axios.get<Device[]>(API_URL)
+    devices.value = res.data
   } catch {
     error.value = 'Error al cargar los dispositivos'
   }
 }
 
-const deleteDevise = async (id: number) => {
+const deleteDevice = async (id: number) => {
   if (!confirm('¿Deseas eliminar este dispositivo?')) return
   try {
     await axios.delete(`${API_URL}/${id}`)
-    devises.value = devises.value.filter(d => d.id !== id)
+    devices.value = devices.value.filter(d => d.id !== id)
   } catch {
     error.value = 'No se pudo eliminar el dispositivo'
   }
 }
 
-onMounted(fetchDevises)
+onMounted(fetchDevices)
 </script>

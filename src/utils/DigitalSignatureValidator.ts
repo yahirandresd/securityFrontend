@@ -1,19 +1,36 @@
-import { z } from "zod";
-import { DigitalSignature } from "@/models/DigitalSignature";
+// src/utils/DigitalSignatureValidator.ts
+import { z } from 'zod';
 
-export class DigitalSignatureValidator {
-    private static schema = z.object({
-        id: z.number().int().nonnegative("El ID debe ser un número entero no negativo."),
-        photo: z.string().min(1, "La foto de la firma no puede estar vacía."),
-        user_id: z.number().int().nonnegative("El ID del usuario debe ser un número entero no negativo."),
-    });
+// Esquema principal de validación para la firma digital
+export const digitalSignatureSchema = z.object({
+  photo: z
+    .any()
+    .refine((file) => file instanceof File, {
+      message: 'Debe seleccionar un archivo válido.',
+    }),
+  user_id: z
+    .number()
+    .min(1, { message: 'Debe seleccionar un usuario.' }),
+});
 
-    static validateField<K extends keyof DigitalSignature>(field: K, value: any) {
-        const fieldSchema = this.schema.pick({ [field]: true } as any);
-        return fieldSchema.safeParse({ [field]: value });
-    }
+// Validador con funciones individuales
+export const DigitalSignatureValidator = {
+  /**
+   * Valida un campo individual.
+   * @param field Nombre del campo
+   * @param value Valor del campo
+   */
+  validateField(field: keyof z.infer<typeof digitalSignatureSchema>, value: any) {
+    const shape = { [field]: digitalSignatureSchema.shape[field] };
+    const partialSchema = z.object(shape);
+    return partialSchema.safeParse({ [field]: value });
+  },
 
-    static validateAll(data: DigitalSignature) {
-        return this.schema.safeParse(data);
-    }
-}
+  /**
+   * Valida todos los campos a la vez
+   * @param data Objeto con todos los campos del formulario
+   */
+  validateAll(data: any) {
+    return digitalSignatureSchema.safeParse(data);
+  }
+};

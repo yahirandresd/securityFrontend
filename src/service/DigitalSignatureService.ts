@@ -1,31 +1,66 @@
-import axios from 'axios';
-import type { DigitalSignature } from '../models/DigitalSignature';
+import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL + '/digital-signature';
+// Interfaz de firma digital
+export interface DigitalSignature {
+  id: number;
+  photo: File; // Se almacena como File en el formulario
+  user_id: number;
+}
+
+// Ruta base del backend
+const API_URL = `${import.meta.env.VITE_API_URL}/digital-signatures`;
 
 class DigitalSignatureService {
-  async getAll(): Promise<DigitalSignature[]> {
-    const response = await axios.get<DigitalSignature[]>(API_URL);
-    return response.data;
+  /**
+   * Obtener todas las firmas digitales
+   */
+  async getSignatures() {
+    return await axios.get<DigitalSignature[]>(API_URL);
   }
 
-  async getById(id: number): Promise<DigitalSignature> {
-    const response = await axios.get<DigitalSignature>(`${API_URL}/${id}`);
-    return response.data;
+  /**
+   * Obtener una firma digital por su ID
+   * @param id ID de la firma
+   */
+  async getSignature(id: number) {
+    return await axios.get<DigitalSignature>(`${API_URL}/${id}`);
   }
 
-  async create(signature: Omit<DigitalSignature, 'id'>): Promise<DigitalSignature> {
-    const response = await axios.post<DigitalSignature>(API_URL, signature);
-    return response.data;
+  /**
+   * Crear una firma digital para un usuario
+   * @param userId ID del usuario
+   * @param signature Objeto con la foto (File)
+   */
+  async createSignature(userId: number, signature: { photo: File }) {
+    const formData = new FormData();
+    formData.append("photo", signature.photo);
+
+    return await axios.post(`${API_URL}/user/${userId}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        },
+    });
+}
+
+  /**
+   * Actualizar una firma digital
+   * @param id ID de la firma
+   * @param formData Objeto FormData con la foto
+   */
+  async updateSignature(id: number, formData: FormData) {
+    return await axios.put<DigitalSignature>(`${API_URL}/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   }
 
-  async update(id: number, signature: Partial<DigitalSignature>): Promise<DigitalSignature> {
-    const response = await axios.put<DigitalSignature>(`${API_URL}/${id}`, signature);
-    return response.data;
-  }
-
-  async delete(id: number): Promise<void> {
-    await axios.delete(`${API_URL}/${id}`);
+  /**
+   * Eliminar una firma digital por ID
+   * @param id ID de la firma
+   */
+  async deleteSignature(id: number) {
+    return await axios.delete(`${API_URL}/${id}`);
   }
 }
 

@@ -13,6 +13,12 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/answers/update/:id',
+                    name: 'answers update',
+                    component: () => import('@/views/pages/Answers/AnswerUpdate.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
                     path: 'security-questions/create',
                     name: 'security-questions-create',
                     component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionCreate.vue'),

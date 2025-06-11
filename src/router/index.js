@@ -13,6 +13,23 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/devices/:id',
+                    name: 'devices view',
+                    component: () => import('@/views/pages/Devices/DeviceView.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
+                    path: '/security-questions/:id',
+                    name: 'security-questions view',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionView.vue'),
+                },
+                {
+                    path: '/answers/:id',
+                    name: 'answers view',
+                    component: () => import('@/views/pages/Answers/AnswerView.vue'),
+                    meta: { requiresAuth: true }
+                },
+                {
                     path: '/answers/update/:id',
                     name: 'answers update',
                     component: () => import('@/views/pages/Answers/AnswerUpdate.vue'),

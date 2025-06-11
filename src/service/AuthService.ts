@@ -24,7 +24,7 @@ class AuthService {
         localStorage.removeItem('user');
     }
 
-    getCurrentUser(): User {
+    getCurrentUser(): User | null {
         const user = localStorage.getItem('user');
         return user ? JSON.parse(user) as User : null;
     }

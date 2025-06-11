@@ -302,7 +302,15 @@ const router = createRouter({
                     path: '/addresses/view/:id',
                     name: 'ViewAddress',
                     component: () => import('@/views/pages/address/AddressView.vue'),
-                     meta: {
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/addresses/user/:id',
+                    name: 'addressesByUser',
+                    component: () => import('@/views/pages/address/AddressListView.vue'),
+                    meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
                 },
@@ -335,7 +343,7 @@ const router = createRouter({
                     path: '/passwords/view/:id',
                     name: 'ViewPassword',
                     component: () => import('@/views/pages/password/PasswordView.vue'),
-                     meta: {
+                    meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
                 },
@@ -349,30 +357,62 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: '/passwords/create',
-                    name: 'passwords create',
-                    component: () => import('@/views/pages/password/PasswordCreate.vue'),
+                    path: '/roles/create',
+                    name: 'roles create',
+                    component: () => import('@/views/pages/roles/RoleCreate.vue'),
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
                 },
                 {
-                    path: '/passwords/update/:id',
-                    name: 'password update',
-                    component: () => import('@/views/pages/password/PasswordUpdate.vue'),
+                    path: '/roles/update/:id',
+                    name: 'role update',
+                    component: () => import('@/views/pages/roles/RoleUpdate.vue'),
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
                 },
                 {
-                    path: '/passwords/view/:id',
-                    name: 'ViewPassword',
-                    component: () => import('@/views/pages/password/PasswordView.vue'),
-                     meta: {
+                    path: '/roles/view/:id',
+                    name: 'ViewRole',
+                    component: () => import('@/views/pages/roles/RoleView.vue'),
+                    meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
                 },
-
+                //USER ROLES
+                {
+                    path: '/user-roles',
+                    name: 'user roles',
+                    component: () => import('@/views/pages/userRole/UserRolesListView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/user-roles/create',
+                    name: 'userRoles create',
+                    component: () => import('@/views/pages/userRole/UserRoleCreate.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/user-roles/update/:id',
+                    name: 'role update',
+                    component: () => import('@/views/pages/userRole/UserRoleUpdate.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/user-roles/view/:id',
+                    name: 'ViewRole',
+                    component: () => import('@/views/pages/userRole/UserRoleView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
 
             ]
         },

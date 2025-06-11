@@ -39,6 +39,11 @@ const model = ref([
                 to: '/landing'
             },
             {
+                label: 'User Roles',
+                icon: 'pi pi-fw pi-users',
+                to: '/user-roles',
+            },
+            {
                 label: 'Users',
                 icon: 'pi pi-fw pi-user',
                 to: '/users',
@@ -56,7 +61,7 @@ const model = ref([
             {
                 label: 'Roles',
                 icon: 'pi pi-fw pi-shield',
-                to: '/passwords',
+                to: '/roles',
             },
             /*{
                 label: 'Auth',

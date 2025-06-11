@@ -37,6 +37,10 @@
                                     <TrashIcon class="w-5 h-5 mr-1" />
                                     Eliminar
                                 </button>
+                                <router-link :to="`role-permissions/${role.id}`" class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <Fingerprint class="w-5 h-5 mr-1" />
+                                    Permissions
+                                </router-link>
                             </td>
                         </tr>
                     </tbody>
@@ -48,7 +52,7 @@
 
 <script setup lang="ts">
 import { useRoleStore } from '@/store/RoleStore';
-import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next';
+import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon, Fingerprint } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
 
 const store = useRoleStore();

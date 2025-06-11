@@ -6,12 +6,8 @@
       <div v-if="profile">
         <!-- Foto de perfil -->
         <div class="flex justify-center mb-6">
-          <img
-            v-if="profile.photo"
-            :src="getPhotoUrl(profile.photo)"
-            alt="Foto de perfil"
-            class="w-48 h-48 object-cover rounded-full shadow"
-          />
+          <img v-if="profile.photo" :src="getPhotoUrl(profile.photo)" alt="Foto de perfil"
+            class="w-48 h-48 object-cover rounded-full shadow" />
           <p v-else class="text-gray-500">Sin foto de perfil</p>
         </div>
 
@@ -28,10 +24,10 @@
 </template>
 
 <script setup lang="ts">
+import type { Profile } from '@/models/Profile'; // si tienes esta interfaz separada
+import { useProfileStore } from '@/store/ProfileStore';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useProfileStore } from '@/store/ProfileStore';
-import type { Profile } from '@/models/Profile'; // si tienes esta interfaz separada
 
 const route = useRoute();
 const profileStore = useProfileStore();
@@ -49,10 +45,8 @@ onMounted(async () => {
 
 // Función para construir la URL de la imagen
 const getPhotoUrl = (photo: string | File) => {
-  if (typeof photo === 'string') {
-    return `/api/profiles/${photo}`;
-  } else {
-    return URL.createObjectURL(photo); // Si llega a ser File, útil en vista previa
-  }
+  console.log(photo);
+
+  return `http://localhost:5000/api/${photo}`
 };
 </script>

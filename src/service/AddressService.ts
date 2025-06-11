@@ -14,7 +14,7 @@ class AddressService {
     }
 
     async createAddress(address: Address) {
-        const response = await axios.post<Address>(API_URL, address);
+        const response = await axios.post<Address>(`${API_URL}/user/${address.user_id}`, address);
         return response;
     }
 

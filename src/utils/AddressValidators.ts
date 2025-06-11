@@ -5,8 +5,9 @@ export class AddressValidator {
     private static schema = z.object({
         street: z.string().min(3, "La calle debe tener al menos 3 caracteres."),
         number: z.string().min(1, "El número es obligatorio."),
-        latitude: z.number().min(2, "La ciudad debe tener al menos 2 caracteres."),
-        longitude: z.number().min(2, "El estado debe tener al menos 2 caracteres."),
+        latitude: z.number().optional(),
+        longitude: z.number().optional(),
+        user_id: z.number().optional(),
     });
 
     static validateField<K extends keyof Address>(field: K, value: any) {

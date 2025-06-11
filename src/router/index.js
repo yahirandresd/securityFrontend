@@ -1,8 +1,8 @@
 import AppLayout from '@/layout/AppLayout.vue';
 import { useAuthStore } from '@/store/Auth';
+import DashboardVue from '@/views/Dashboard.vue';
+import TokenHandlerVue from '@/views/TokenHandler.vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import DashboardVue from '@/views/Dashboard.vue'
-import TokenHandlerVue  from '@/views/TokenHandler.vue'
 
 
 const router = createRouter({
@@ -177,6 +177,12 @@ const router = createRouter({
                     path: '/profiles/view/:id',
                     name: 'profiles view',
                     component: () => import('@/views/pages/profiles/ProfileView.vue'),
+                },
+                {
+                    path: '/profiles/user/:id',
+                    name: 'profilesByUser',
+                    component: () => import('@/views/pages/profiles/ProfileListUser.vue'),
+                    meta: { requiresAuth: true }
                 },
                 {
                     path: '/rolepermissions',
@@ -439,6 +445,12 @@ const router = createRouter({
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }
+                },
+                {
+                    path: '/digital-signatures/user/:id',
+                    name: 'digitalSignaturesByUser',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureListUser.vue'),
+                    meta: { requiresAuth: true }
                 },
 
             ]

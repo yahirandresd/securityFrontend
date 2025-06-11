@@ -26,8 +26,13 @@ class ProfileService {
         });
     }
 
+
     async deleteProfile(id: number) {
         return await axios.delete(`${API_URL}/${id}`);
+    }
+
+    async getProfilesByUser(userId: number) {
+        return await axios.get(`${API_URL}/user/${userId}`);
     }
 }
 

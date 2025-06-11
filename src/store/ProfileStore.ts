@@ -15,7 +15,7 @@ export const useProfileStore = defineStore('ProfileStore', {
         async getProfile(id: number) {
             return await ProfileService.getProfile(id);
         },
-                async addProfile(userId: number, formData: FormData) {
+        async addProfile(userId: number, formData: FormData) {
             return await ProfileService.addProfile(userId, formData);
         },
         async editProfile(profileId: number, formData: FormData) {
@@ -23,6 +23,11 @@ export const useProfileStore = defineStore('ProfileStore', {
         },
         async removeProfile(id: number) {
             return await ProfileService.deleteProfile(id);
+        },
+        async fetchProfilesByUser(userId: number) {
+            let response = await ProfileService.getProfilesByUser(userId);
+            this.Profiles = Array.isArray(response.data) ? response.data : [response.data];
+            return this.Profiles;
         },
     }
 });

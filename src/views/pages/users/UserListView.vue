@@ -38,7 +38,7 @@
                                     <TrashIcon class="w-5 h-5 mr-1" />
                                     Eliminar
                                 </button>
-                                <router-link :to="`/users/update/${user.id}`"
+                                <router-link :to="`/profiles/user/${user.id}`"
                                     class="text-blue-600 hover:text-blue-800 flex items-center">
                                     <PencilIcon class="w-5 h-5 mr-1" />
                                     Profile
@@ -47,6 +47,26 @@
                                     class="text-blue-600 hover:text-blue-800 flex items-center">
                                     <MapPinHouse class="w-5 h-5 mr-1" />
                                     Address
+                                </router-link>
+                                <router-link :to="`/digital-signatures/user/${user.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <Pencil class="w-5 h-5 mr-1" />
+                                    Digital Signature
+                                </router-link>
+                                <router-link :to="`/addresses/user/${user.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <RadioReceiver  class="w-5 h-5 mr-1" />
+                                    Devices
+                                </router-link>
+                                <router-link :to="`/addresses/user/${user.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <KeyRound  class="w-5 h-5 mr-1" />
+                                    Password
+                                </router-link>
+                                <router-link :to="`/addresses/user/${user.id}`"
+                                    class="text-blue-600 hover:text-blue-800 flex items-center">
+                                    <ScanFace  class="w-5 h-5 mr-1" />
+                                    Sessions
                                 </router-link>
                             </td>
                         </tr>
@@ -60,7 +80,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/UserStore';
-import { PencilIcon, PlusCircleIcon, TrashIcon, MapPinHouse  } from 'lucide-vue-next';
+import { PencilIcon, PlusCircleIcon, TrashIcon, MapPinHouse, Pencil, RadioReceiver, KeyRound, ScanFace    } from 'lucide-vue-next';
 import { computed, onMounted } from 'vue';
 
 const store = useUserStore();

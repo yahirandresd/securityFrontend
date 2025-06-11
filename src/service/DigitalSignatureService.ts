@@ -36,11 +36,11 @@ class DigitalSignatureService {
     formData.append("photo", signature.photo);
 
     return await axios.post(`${API_URL}/user/${userId}`, formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
-}
+  }
 
   /**
    * Actualizar una firma digital
@@ -61,6 +61,14 @@ class DigitalSignatureService {
    */
   async deleteSignature(id: number) {
     return await axios.delete(`${API_URL}/${id}`);
+  }
+
+  /**
+   * Obtener firmas digitales de un usuario por su ID
+   * @param userId ID del usuario
+   */
+  async getSignaturesByUser(userId: number) {
+    return await axios.get(`${API_URL}/user/${userId}`);
   }
 }
 

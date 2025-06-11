@@ -1,6 +1,6 @@
-import { defineStore } from 'pinia';
 import { DigitalSignature } from '@/models/DigitalSignature';
 import DigitalSignatureService from '@/service/DigitalSignatureService';
+import { defineStore } from 'pinia';
 
 export const useDigitalSignatureStore = defineStore('digitalSignature', {
   state: () => ({
@@ -46,6 +46,12 @@ export const useDigitalSignatureStore = defineStore('digitalSignature', {
     async deleteSignature(id: number) {
       await DigitalSignatureService.deleteSignature(id);
       this.signatures = this.signatures.filter(signature => signature.id !== id);
+    },
+
+    async fetchSignaturesByUser(userId: number) {
+      const response = await DigitalSignatureService.getSignaturesByUser(userId);
+      this.signatures = Array.isArray(response.data) ? response.data : [response.data];
+      return this.signatures;
     },
   },
 });

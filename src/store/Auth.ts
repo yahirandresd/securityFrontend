@@ -42,7 +42,8 @@ export const useAuthStore = defineStore('auth', () => {
                 // Puedes agregar más campos si tu modelo User los tiene
             };
             googleToken.value = googleJwt;
-            // Si quieres persistir el token, puedes usar localStorage aquí
+            // Guardar usuario y token en localStorage usando AuthService
+            AuthService.loginWithGoogle(user.value, googleJwt);
         } catch (error) {
             throw new Error('Error al iniciar sesión con Google');
         }

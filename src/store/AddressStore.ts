@@ -1,7 +1,7 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
 import type { Address } from '@/models/Address';
 import AddressService from '@/service/AddressService';
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
 
 export const useAddressStore = defineStore('addressStore', () => {
   const addresses = ref<Address[]>([]);
@@ -20,7 +20,7 @@ export const useAddressStore = defineStore('addressStore', () => {
 
   const getAddressesByUser = async (userId: number) => {
     const res = await AddressService.getAddressByUser(userId);
-    addresses.value = res.data;
+    addresses.value = Array.isArray(res.data) ? res.data : [res.data];
   };
 
   const removeAddress = (id: number) => AddressService.deleteAddress(id);

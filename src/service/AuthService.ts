@@ -38,6 +38,10 @@ class AuthService {
         let user = JSON.parse(userJSON) as Partial<User>; // Evita errores si faltan propiedades
         return user["token"] ?? null;
     }
+
+    loginWithGoogle(user: User, token: string): void {
+        localStorage.setItem('user', JSON.stringify({ user, token }));
+    }
 }
 
 export default new AuthService();

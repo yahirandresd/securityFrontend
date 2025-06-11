@@ -3,8 +3,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
 import maplibregl from 'maplibre-gl'
+import { onMounted, ref } from 'vue'
 
 const emit = defineEmits(['location-selected'])
 
@@ -38,11 +38,11 @@ onMounted(() => {
 <style scoped>
 .map-container {
   width: 100%;
-  max-width: 600px; /* o el tamaño que desees */
-  height: 30vh;
-  margin: 0 auto; /* centra horizontalmente */
+  max-width: 600px;
+  height: 50vh;
+  /* más alto para mejor visualización */
+  margin: 0 auto;
   border-radius: 8px;
   overflow: hidden;
 }
-
 </style>

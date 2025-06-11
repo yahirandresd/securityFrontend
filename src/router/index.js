@@ -336,7 +336,7 @@ const router = createRouter({
                 {
                     path: '/addresses/user/:id',
                     name: 'addressesByUser',
-                    component: () => import('@/views/pages/address/AddressListView.vue'),
+                    component: () => import('@/views/pages/address/AddressListUser.vue'),
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }

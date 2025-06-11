@@ -15,6 +15,9 @@ export const usePermissionStore = defineStore('PermissionStore', {
         async getPermission(id: number) {
             return await PermissionService.getPermission(id);
         },
+        async getGroupedPermission(id: number) {
+            return await PermissionService.getGroupedPermissions(id);
+        },
         async addPermission(Permission: Permission) {
             return await PermissionService.createPermission(Permission);
         },

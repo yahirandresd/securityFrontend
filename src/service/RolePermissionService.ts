@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { RolePermission } from '../models/RolePermission';
 
-const API_URL = import.meta.env.VITE_API_URL + "/RolePermissions";
+const API_URL = import.meta.env.VITE_API_URL + "/rolePermissions";
 
 class RolePermissionService {
     async getRolePermissions() {

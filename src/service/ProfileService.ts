@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Profile } from '../models/Profile';
 
-const API_URL = import.meta.env.VITE_API_URL + "/Profiles";
+const API_URL = import.meta.env.VITE_API_URL + "/profiles";
 
 class ProfileService {
     async getProfiles() {
@@ -14,8 +14,8 @@ class ProfileService {
         return response;
     }
 
-    async createProfile(Profile: Profile) {
-        const response = await axios.post<Profile>(API_URL, Profile);
+    async createProfile(profile: Profile) {
+        const response = await axios.post<Profile>(`${API_URL}/user/${profile.user_id}`, profile);
         return response;
     }
 

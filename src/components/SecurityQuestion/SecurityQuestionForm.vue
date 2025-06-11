@@ -69,7 +69,7 @@ const isSubmitting = ref(false)
 onMounted(async () => {
   if (props.questionId) {
     try {
-      const res = await store.getSecurityQuestion(props.questionId)
+      const res = await store.getQuestion(props.questionId)
       if (res.status === 200) {
         Object.assign(question, res.data)
       }
@@ -102,9 +102,9 @@ const submitForm = async () => {
   try {
     let res
     if (props.questionId) {
-      res = await store.editSecurityQuestion(props.questionId, question)
+      res = await store.editQuestion(props.questionId, question)
     } else {
-      res = await store.addSecurityQuestion(question)
+      res = await store.addQuestion(question)
     }
 
     if ([200, 201].includes(res.status)) {

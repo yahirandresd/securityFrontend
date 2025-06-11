@@ -32,7 +32,7 @@
               <td class="px-4 py-3 border">{{ d.name }}</td>
               <td class="px-4 py-3 border">{{ d.ip }}</td>
               <td class="px-4 py-3 border">{{ d.operating_system }}</td>
-              <td class="px-4 py-3 border">{{ d.user?.name || 'Sin usuario' }}</td>
+              <td class="px-4 py-3 border">{{ d.user_id || 'No asignado' }}</td>
               <td class="px-4 py-3 border">
                 <div class="flex flex-wrap gap-2">
                   <router-link
@@ -70,22 +70,17 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import { EyeIcon, PencilIcon, PlusCircleIcon, TrashIcon } from 'lucide-vue-next'
 
-// Ahora incluye el usuario
 interface Device {
   id: number
   name: string
   ip: string
   operating_system: string
-  user?: {
-    id: number
-    name: string
-  }
+  user_id?: number
 }
 
 const devices = ref<Device[]>([])
 const error = ref('')
-const userId = 1; // Cambia esto por el ID del usuario correspondiente
-const API_URL = import.meta.env.VITE_API_URL + `/device`
+const API_URL = import.meta.env.VITE_API_URL + `/devices`
 
 const fetchDevices = async () => {
   try {

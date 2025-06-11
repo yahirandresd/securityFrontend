@@ -32,7 +32,7 @@
               <td class="px-4 py-3 border">
                 <img :src="getPhotoUrl(s.photo)" alt="Firma" class="h-12 object-contain" />
               </td>
-              <td class="px-4 py-3 border">ID: {{ s.user_id }}</td>
+              <td class="px-4 py-3 border"> {{ s.user_id || 'No asignado' }}</td>
               <td class="px-4 py-3 border">
                 <div class="flex flex-wrap gap-2">
                   <router-link

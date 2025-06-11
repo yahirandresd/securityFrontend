@@ -80,7 +80,7 @@ const signature = reactive<{
 });
 
 onMounted(async () => {
-  await userStore.fetchUsers();
+  await userStore.getUsers();
   users.value = userStore.users;
 
   if (props.signatureId) {
@@ -96,6 +96,13 @@ onMounted(async () => {
 const onFileChange = (e: Event) => {
   const target = e.target as HTMLInputElement;
   const file = target.files?.[0] || null;
+  if (file) {
+    const type = file.type;
+    if (!type.startsWith('image/')) {
+      errors.photo = 'El archivo debe ser una imagen';
+      return;
+    }
+  }
   signature.photo = file;
   validateField('photo');
 };

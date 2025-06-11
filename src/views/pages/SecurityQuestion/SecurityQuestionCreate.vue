@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>Crear Pregunta de Seguridad</h1>
-        <SecurityQuestionForm @submit="createSecurityQuestion" />
+        <SecurityQuestionForm @submit="createQuestion" />
     </div>
 </template>
 

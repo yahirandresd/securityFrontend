@@ -11,6 +11,30 @@ const router = createRouter({
             component: AppLayout,
             children: [
                 {
+                    path: '/signatures/:id',
+                    name: 'digital-signatures',
+                    component: () => import('@/views/pages/DigitalSignature/DigitalSignatureView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/answers/update/:id',
+                    name: 'answers update',
+                    component: () => import('@/views/pages/Answers/AnswerUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: '/security-questions/update/:id',
+                    name: 'security-questions-update',
+                    component: () => import('@/views/pages/SecurityQuestion/SecurityQuestionUpdate.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/addresses',
                     name: 'addresses',
                     component: () => import('@/views/pages/address/AddressListView.vue'),
@@ -27,7 +51,7 @@ const router = createRouter({
                     component: () => import('@/views/pages/address/AddressCreate.vue')
                 },
                 {
-                    path: 'Answers/create',
+                    path: '/answers/create',
                     name: 'answers create',
                     component: () => import('@/views/pages/Answers/AnswersCreate.vue'),
                     meta: {

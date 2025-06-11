@@ -1,32 +1,28 @@
 import type { SecurityQuestion } from '@/models/SecurityQuestion'
+import SecurityQuestionService from '@/service/SecurityQuestionService'
 import { defineStore } from 'pinia'
-import axios from 'axios'
 
 export const useSecurityQuestionStore = defineStore('securityQuestionStore', {
   state: () => ({
-    securityQuestions: [] as SecurityQuestion[],
+    questions: [] as SecurityQuestion[],
   }),
   actions: {
-    async fetchSecurityQuestions() {
-      const response = await axios.get('/api/security-questions')
-      this.securityQuestions = response.data
-      return this.securityQuestions
+    async fetchQuestions() {
+      const response = await SecurityQuestionService.getQuestions()
+      this.questions = response.data
+      return this.questions
     },
-
-    async getSecurityQuestion(id: number) {
-      return await axios.get(`/api/security-questions/${id}`)
+    async getQuestion(id: number) {
+      return await SecurityQuestionService.getQuestion(id)
     },
-
-    async addSecurityQuestion(question: { name: string; description: string }) {
-      return await axios.post('/api/security-questions', question)
+    async addQuestion(question: SecurityQuestion) {
+      return await SecurityQuestionService.createQuestion(question)
     },
-
-    async editSecurityQuestion(id: number, question: { name: string; description: string }) {
-      return await axios.put(`/api/security-questions/${id}`, question)
+    async editQuestion(id: number, question: SecurityQuestion) {
+      return await SecurityQuestionService.updateQuestion(id, question)
     },
-
-    async removeSecurityQuestion(id: number) {
-      return await axios.delete(`/api/security-questions/${id}`)
+    async removeQuestion(id: number) {
+      return await SecurityQuestionService.deleteQuestion(id)
     },
   },
 })

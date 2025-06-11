@@ -1,4 +1,5 @@
 import AuthService from '@/service/AuthService';
+import { jwtDecode } from 'jwt-decode';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -6,7 +7,7 @@ import type { User } from '../models/User';
 
 export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(AuthService.getCurrentUser()); // <-- Reactivo
-
+    const googleToken = ref<string | null>(null); // <-- Nuevo ref para el token de Google
 
     const login = async (userData: User) => {
         try {
@@ -20,7 +21,6 @@ export const useAuthStore = defineStore('auth', () => {
     };
     const router = useRouter();
 
-
     const logout = () => {
         console.log("cerrando")
         router.push('/auth/login'); // Luego, redirige a /auth/login
@@ -32,5 +32,21 @@ export const useAuthStore = defineStore('auth', () => {
 
     const isAuthenticated = computed(() => user.value !== null);
 
-    return { user, login, logout, isAuthenticated };
+    const loginWithGoogle = async (googleJwt: string) => {
+        try {
+            const decoded = jwtDecode<any>(googleJwt);
+            user.value = {
+                email: decoded.email,
+                name: decoded.name,
+                token: googleJwt,
+                // Puedes agregar más campos si tu modelo User los tiene
+            };
+            googleToken.value = googleJwt;
+            // Si quieres persistir el token, puedes usar localStorage aquí
+        } catch (error) {
+            throw new Error('Error al iniciar sesión con Google');
+        }
+    };
+
+    return { user, login, logout, isAuthenticated, loginWithGoogle, googleToken };
 });

@@ -12,9 +12,11 @@ import '@/assets/tailwind.css';
 import axios from 'axios';
 import { createPinia } from 'pinia';
 
+
 const app = createApp(App);
 
 const pinia = createPinia();
+
 
 app.use(pinia); // 👈 Registrar Pinia antes de usarlo
 app.use(router);

@@ -33,6 +33,14 @@ class DeviceService {
     return response;
   }
 
+  async function getDevicesByUser(userId: number) {
+    const response = await fetch(`${API_URL}/user/${userId}`);
+    if (!response.ok) {
+        throw new Error('Error al obtener los dispositivos del usuario');
+    }
+    return await response.json();
+}
+
   async deleteDevice(id: number) {
     await axios.delete(`${API_URL}/${id}`);
   }

@@ -24,5 +24,11 @@ export const useDeviceStore = defineStore('deviceStore', {
     async removeDevice(id: number) {
       return await DeviceService.deleteDevice(id);
     },
+    async fetchDevicesByUser(userId: number) {
+      const response = await DeviceService.getDevicesByUser(userId);
+      this.devices = response.data;
+      return this.devices;
+    }
+
   }
 });

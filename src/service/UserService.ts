@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { User } from '../models/User';
 const API_URL = import.meta.env.VITE_API_URL + "/users";
 
+
 class UserService {
     async getUsers() {
         const response = await axios.get<User[]>(API_URL);
@@ -27,5 +28,7 @@ class UserService {
         await axios.delete(`${API_URL}/${id}`);
     }
 }
+
+
 
 export default new UserService();

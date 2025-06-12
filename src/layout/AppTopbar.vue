@@ -1,6 +1,7 @@
 <script setup>
 import { useLayout } from '@/layout/composables/layout';
 import { useAuthStore } from '@/store/Auth';
+import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import AppConfigurator from './AppConfigurator.vue';
 
@@ -12,16 +13,18 @@ let user = computed(() => authStore.user);
 
 //Socket io
 import { io } from 'socket.io-client';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 
 const socket = io('http://localhost:5000'); // Cambia la URL por la de tu servidor
-const message = ref('');
+// Message store
+//const { count } = storeToRefs(messageStore); 
 
 onMounted(() => {
     socket.on('new_znotification', (data) => {
         message.value = data;
         console.log('Llegando notificaciones ' + JSON.stringify(data));
     });
+
 });
 function logout() {
     authStore.logout(); // Asegúrate de que este método esté en tu store
@@ -92,11 +95,12 @@ onUnmounted(() => {
                             <i class="pi pi-calendar"></i>
                             <span>Calendar</span>
                         </button>
-                        <button type="button" class="layout-topbar-action">
-                            <i class="pi pi-inbox"></i>
-                            <span>Messages</span>
-                        </button>
 
+                        <!--
+                        <span v-if="count > 0" class="absolute layout-topbar-action bg-red-500 text-black text-xs rounded-full px-2 py-0.5">
+                            {{ count }}
+                        </span>
+-->
                         <button type="button" class="layout-topbar-action">
                             <i class="pi pi-user"></i>
                             <span>Profile</span>

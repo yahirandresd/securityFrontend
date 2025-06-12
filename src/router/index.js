@@ -12,12 +12,7 @@ const router = createRouter({
             path: '/',
             component: AppLayout,
             children: [
-                {
-                    path: '/devices/:id',
-                    name: 'devices view',
-                    component: () => import('@/views/pages/Devices/DeviceView.vue'),
-                    meta: { requiresAuth: true }
-                },
+               
                 {
                     path: '/security-questions/:id',
                     name: 'security-questions view',
@@ -109,13 +104,14 @@ const router = createRouter({
                     }
                 },
                 {
-                    path: '/devices',
-                    name: 'devices',
-                    component: () => import('@/views/pages/Devices/DeviceListView.vue'),
+                    path: '/devices/user/:id',
+                    name: 'devices user',
+                    component: () => import('@/views/pages/Devices/DeviceListUser.vue'),
                     meta: {
                         requiresAuth: true
                     }
                 },
+               
                 {
                     path: '/',
                     name: 'dashboard',

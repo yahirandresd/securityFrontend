@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-gray-100 p-6">
         <div class="mx-auto bg-white shadow-lg rounded-lg p-6">
-            <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de Roles</h1>
+            <h1 class="text-2xl font-bold text-gray-800 mb-4">Lista de User Roles</h1>
 
             <router-link to="/user-roles/create" class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition mb-4">
                 <PlusCircleIcon class="w-5 h-5 mr-2" />

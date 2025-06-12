@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useDeviceStore } from '@/stores/DeviceStore';
+import { useDeviceStore } from '../../../store/DeviceStore';
 
 const route = useRoute();
 const deviceStore = useDeviceStore();
-
+  const user_id = Number(route.params.id);
 onMounted(async () => {
   const userId = Number(route.params.id);
+
   if (!isNaN(userId)) {
     await deviceStore.fetchDevicesByUser(userId);
+    console.log('Dispositivos del usuario cargados:', deviceStore.devices.data);
   }
 });
 </script>
 
 <template>
   <div class="container mx-auto py-8">
-    <h1 class="text-2xl font-bold mb-6 text-center">Dispositivos del Usuario</h1>
+    <h1 class="text-2xl font-bold mb-6 text-center">Dispositivos del Usuario {{ user_id }}</h1>
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
         <thead>

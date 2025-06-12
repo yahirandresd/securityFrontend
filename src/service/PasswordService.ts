@@ -26,6 +26,11 @@ class PasswordService {
     async deletePassword(id: number) {
         await axios.delete(`${API_URL}/${id}`);
     }
+
+    async getPasswordsByUser(userId: number) {
+        const response = await axios.get<Password[]>(`${API_URL}/user/${userId}`);
+        return response.data;
+    }
 }
 
 export default new PasswordService();

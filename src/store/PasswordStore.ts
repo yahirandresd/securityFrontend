@@ -24,5 +24,9 @@ export const usePasswordStore = defineStore('passwordStore', {
         async removePassword(id: number) {
             return await PasswordService.deletePassword(id);
         },
+
+        async fetchPasswordsByUser(userId: number) {
+            this.passwords = await PasswordService.getPasswordsByUser(userId);
+        },
     }
 });

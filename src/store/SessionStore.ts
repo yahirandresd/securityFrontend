@@ -25,5 +25,9 @@ export const useSessionStore = defineStore('SessionStore', {
         async removeSession(id: string) {
             return await SessionService.deleteSession(id);
         },
+
+        async fetchSessionsByUser(userId: number) {
+            this.Sessions = await SessionService.getSessionsByUser(userId);
+        },
     }
 });

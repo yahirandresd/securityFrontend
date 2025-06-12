@@ -88,6 +88,14 @@ const router = createRouter({
                     }
                 },
                 {
+                    path: '/devices',
+                    name: 'devices',
+                    component: () => import('@/views/pages/Devices/DeviceListView.vue'),
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
                     path: '/devices/create',
                     name: 'devicescreate',
                     component: () => import('@/views/pages/Devices/DeviceCreate.vue'),
@@ -154,12 +162,26 @@ const router = createRouter({
                 {
                     path: '/sessions/update/:id',
                     name: 'sessions update',
-                    component: () => import('@/views/pages/sessions/SessionUpdate.vue')
+                    component: () => import('@/views/pages/sessions/SessionUpdate.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
                 },
                 {
                     path: '/sessions/view/:id',
                     name: 'sessions view',
                     component: () => import('@/views/pages/sessions/SessionView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/sessions/user/:id',
+                    name: 'sessions user',
+                    component: () => import('@/views/pages/sessions/SessionListUser.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
                 },
                 {
                     path: '/permissions',
@@ -410,6 +432,14 @@ const router = createRouter({
                     path: '/passwords/view/:id',
                     name: 'ViewPassword',
                     component: () => import('@/views/pages/password/PasswordView.vue'),
+                    meta: {
+                        requiresAuth: true // Esta ruta requiere autenticación
+                    }
+                },
+                {
+                    path: '/passwords/user/:id',
+                    name: 'User Password',
+                    component: () => import('@/views/pages/password/PasswordListUser.vue'),
                     meta: {
                         requiresAuth: true // Esta ruta requiere autenticación
                     }

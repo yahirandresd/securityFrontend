@@ -18,7 +18,7 @@ class DeviceService {
 
   async createDevice(device: Device) {
     if (!device.user_id) {
-        throw new Error("user_id es requerido para crear un dispositivo");
+      throw new Error("user_id es requerido para crear un dispositivo");
     }
 
     const url = `${API_URL}/user/${device.user_id}`;
@@ -33,13 +33,11 @@ class DeviceService {
     return response;
   }
 
-  async function getDevicesByUser(userId: number) {
-    const response = await fetch(`${API_URL}/user/${userId}`);
-    if (!response.ok) {
-        throw new Error('Error al obtener los dispositivos del usuario');
-    }
-    return await response.json();
-}
+  async getDevicesByUser(userId: number) {
+    const response = await axios.get<Device[]>(`${API_URL}/user/${userId}`);
+    return response;
+  }
+
 
   async deleteDevice(id: number) {
     await axios.delete(`${API_URL}/${id}`);

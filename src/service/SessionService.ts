@@ -27,6 +27,11 @@ class SessionService {
     async deleteSession(id: string) {
         await axios.delete(`${API_URL}/${id}`);
     }
+
+    async getSessionsByUser(userId: number) {
+        const response = await axios.get(`${API_URL}/user/${userId}`);
+        return response.data;
+    }
 }
 
 export default new SessionService();

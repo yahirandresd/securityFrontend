@@ -29,6 +29,10 @@ onMounted(() => {
 function logout() {
     authStore.logout(); // Asegúrate de que este método esté en tu store
 }
+function perfil() {
+    // Redirigir al perfil del usuario
+    window.location.href = '/profiles/view/1';
+}
 
 onUnmounted(() => {
     socket.disconnect();
@@ -101,7 +105,7 @@ onUnmounted(() => {
                             {{ count }}
                         </span>
 -->
-                        <button type="button" class="layout-topbar-action">
+                        <button @click="perfil" type="button" class="layout-topbar-action">
                             <i class="pi pi-user"></i>
                             <span>Profile</span>
                         </button>

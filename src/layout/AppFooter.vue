@@ -2,7 +2,7 @@
 
 <template>
     <div class="layout-footer">
-        SAKAI by
-        <a href="https://primevue.org" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">PrimeVue</a>
+        SECURITY by
+        <a href="https://github.com/yahirandresd/securityFrontend" target="_blank" rel="noopener noreferrer" class="text-primary font-bold hover:underline">RASQUIÑA JESUS YAHIR</a>
     </div>
 </template>

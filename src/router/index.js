@@ -161,6 +161,11 @@ const router = createRouter({
                     component: () => import('@/views/pages/sessions/SessionUpdate.vue')
                 },
                 {
+                    path: '/sessions/view/:id',
+                    name: 'sessions view',
+                    component: () => import('@/views/pages/sessions/SessionView.vue'),
+                },
+                {
                     path: '/permissions',
                     name: 'permissions',
                     component: () => import('@/views/pages/permissions/PermissionListView.vue'),
@@ -177,6 +182,16 @@ const router = createRouter({
                     path: '/permissions/update/:id',
                     name: 'permissions update',
                     component: () => import('@/views/pages/permissions/PermissionUpdate.vue'),
+                },
+                {
+                    path: '/permissions/role/:id',
+                    name: 'permissions grouped',
+                    component: () => import('@/views/pages/permissions/PermissionView.vue'),
+                },
+                {
+                    path: '/permissions/view/:id',
+                    name: 'permission view',
+                    component: () => import('@/views/pages/permissions/PermissionNormalView.vue'),
                 },
                 {
                     path: '/profiles',

@@ -24,6 +24,11 @@
                             <td class="px-4 py-2 border">{{ permission.method }}</td>
                             <td class="px-4 py-2 border">{{ permission.entity }}</td>
                             <td class="px-4 py-2 border flex space-x-4">
+                                <router-link :to="`/permissions/view/${permission.id}`"
+                                    class="text-green-600 hover:text-green-800 flex items-center">
+                                    <EyeIcon class="w-5 h-5 mr-1" />
+                                    Ver
+                                </router-link>
                                 <router-link :to="`/permissions/update/${permission.id}`"
                                     class="text-blue-600 hover:text-blue-800 flex items-center">
                                     <PencilIcon class="w-5 h-5 mr-1" />

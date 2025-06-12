@@ -1,7 +1,6 @@
 import axios from 'axios';
 import type { Permission } from '../models/Permission';
-import type {Role} from '../models/Role'
-import { RolePermission } from '@/models/RolePermission';
+import type { Role } from '../models/Role'
 
 const API_URL = import.meta.env.VITE_API_URL + "/permissions";
 
@@ -10,9 +9,9 @@ class PermissionService {
         const response = await axios.get<Permission[]>(API_URL);
         return response;
     }
-    async getGroupedPermissions( rolePermission:RolePermission) {
-        const response = await axios.get<RolePermission>(`${API_URL}grouped/role/${rolePermission.role_id}`);
-        return response;
+    async getGroupedPermissionsByRole(roleId: number) {
+        const res = await axios.get(`${API_URL}/grouped/role/${roleId}`);
+        return res.data; 
     }
 
     async getPermission(id: number) {
